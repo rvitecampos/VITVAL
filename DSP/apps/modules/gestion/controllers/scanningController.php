@@ -302,6 +302,8 @@ class scanningController extends AppController {
             break;
             case 'tiff': case 'TIFF': 
                 $bool=true;
+            case 'pdf': case 'PDF': 
+                $bool=true;
             break;
         }
         return $bool;
@@ -325,6 +327,9 @@ class scanningController extends AppController {
             case 'tiff': 
                 $img = $this->resize_imagetiff(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;
+            case 'pdf': 
+                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+            break;            
             default : 
                 $img = $this->resize_imagejpg(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;
@@ -365,6 +370,16 @@ class scanningController extends AppController {
        imagecopyresampled($dst, $src, 0, 0, 0, 0, $w, $h, $width, $height);
        return $dst;
     }
+
+    // for PDF
+    public function resize_imagepdf($file, $w, $h) {
+       list($width, $height) = getimagesize($file);
+       $src = imagecreatefromgif($file);
+       $dst = imagecreatetruecolor($w, $h);
+       imagecopyresampled($dst, $src, 0, 0, 0, 0, $w, $h, $width, $height);
+       return $dst;
+    }
+
     public function set_scanner_file_one_to_one($p){
         $records = json_decode(stripslashes($p['vp_recordsToSend'])); //parse the string to PHP objects
         if(isset($records)){

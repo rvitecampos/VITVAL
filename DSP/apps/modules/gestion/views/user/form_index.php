@@ -645,6 +645,8 @@
 	                padding:20,
 	                //layout:'fit',
 	                items:[
+
+	                
 	                	
 	                ],
 	                bbar:[       
