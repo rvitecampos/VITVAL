@@ -302,7 +302,11 @@ class scanningController extends AppController {
             break;
             case 'tiff': case 'TIFF': 
                 $bool=true;
+            break;
             case 'pdf': case 'PDF': 
+                $bool=true;
+            break;
+            case 'docx': case 'DOCX': 
                 $bool=true;
             break;
         }
@@ -329,9 +333,12 @@ class scanningController extends AppController {
             break;
             case 'pdf': 
                 $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
-            break;            
+            break;     
+            case 'docx': 
+                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+            break; 
             default : 
-                $img = $this->resize_imagejpg(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagedocx(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;
         }
         imagejpeg($img, PATH.'public_html/tumblr/'.$nameimg);
@@ -379,6 +386,15 @@ class scanningController extends AppController {
        imagecopyresampled($dst, $src, 0, 0, 0, 0, $w, $h, $width, $height);
        return $dst;
     }
+    // for docx
+    public function resize_imagedocx($file, $w, $h) {
+       list($width, $height) = getimagesize($file);
+       $src = imagecreatefromgif($file);
+       $dst = imagecreatetruecolor($w, $h);
+       imagecopyresampled($dst, $src, 0, 0, 0, 0, $w, $h, $width, $height);
+       return $dst;
+    }
+
 
     public function set_scanner_file_one_to_one($p){
         $records = json_decode(stripslashes($p['vp_recordsToSend'])); //parse the string to PHP objects

@@ -2018,9 +2018,20 @@
 				
 				var panel = Ext.getCmp(scanning.id+'-panel_img');
                 panel.removeAll();
-                panel.add({
-                    html: '<img id="imagen-scaneo" src="'+scanning.getAddMagicRefresh(path+file)+'" style="width:100%;" >'
-                });
+
+
+              	var googlePath = "http://docs.google.com/viewer?url=http://localhost:9003"
+
+	               panel.add({
+	               	   //html: '<iframe id = "imagen-scaneo" src="'+googlePath+scanning.getAddMagicRefresh(path+file)+'&embedded=true" style="width:800px; height:600px;" frameborder="0"></iframe>'
+	        		   html: '<iframe id = "imagen-scaneo" src="'+scanning.getAddMagicRefresh(path+file)+'" style="width:800px; height:600px;" frameborder="0"></iframe>'
+	               });
+               // }	else   {
+	           //    panel.add({
+	           //         html: '<img id="imagen-scaneo" src="'+scanning.getAddMagicRefresh(path+file)+'" style="width:100%;" >'
+	           //     });
+               // }
+ 
 
                 var image = document.getElementById('imagen-scaneo');
                 if(image!=null){
