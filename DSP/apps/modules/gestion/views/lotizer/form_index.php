@@ -1070,10 +1070,10 @@
 		            global.Msg({msg:"Seleccione un Cliente por favor.",icon:2,fn:function(){}});
 		            return false;
 		        }
-				if(fac_cliente== null || fac_cliente==''){
+				/*if(fac_cliente== null || fac_cliente==''){
 		            global.Msg({msg:"Seleccione un Contrato por favor.",icon:2,fn:function(){}});
 		            return false;
-		        }
+		        }*/
 		        if(lote== null || lote==''){
 		        	lote=0;
 		        }

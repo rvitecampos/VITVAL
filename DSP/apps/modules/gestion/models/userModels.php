@@ -34,9 +34,30 @@ class userModels extends Adodb {
         parent::SetParameterSP($p['vp_usr_nombre'], 'varchar');
         parent::SetParameterSP($p['vp_usr_perfil'], 'varchar');
         parent::SetParameterSP($p['vp_usr_estado'], 'varchar');
+        parent::SetParameterSP($p['vp_usr_cliente'], 'varchar');
+        parent::SetParameterSP($p['vp_usr_contrato'], 'varchar');
         parent::SetParameterSP(USR_ID, 'int');
         // echo '=>' . parent::getSql().'<br>'; exit();
         $array = parent::ExecuteSPArray();
         return $array;
     }
+
+
+   public function get_list_shipper($p){
+        parent::ReiniciarSQL();
+        parent::ConnectionOpen($this->dsn, 'get_list_shipper');
+        parent::SetParameterSP(USR_ID, 'int');
+        // echo '=>' . parent::getSql().'<br>'; exit();
+        $array = parent::ExecuteSPArray();
+        return $array;
+    }
+    public function get_list_contratos($p){
+        parent::ReiniciarSQL();
+        parent::ConnectionOpen($this->dsn, 'get_list_contratos');
+        parent::SetParameterSP($p['vp_shi_codigo'], 'int');
+        parent::SetParameterSP(USR_ID, 'int');
+        // echo '=>' . parent::getSql().'<br>'; exit();
+        $array = parent::ExecuteSPArray();
+        return $array;
+    }    
 }

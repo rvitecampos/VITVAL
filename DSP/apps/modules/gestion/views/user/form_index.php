@@ -105,52 +105,7 @@
 	                }
 	            });
 				
-				var store_shipper = Ext.create('Ext.data.Store',{
-	                fields: [
-	                    {name: 'shi_codigo', type: 'string'},
-	                    {name: 'shi_nombre', type: 'string'},
-	                    {name: 'shi_logo', type: 'string'},
-	                    {name: 'fec_ingreso', type: 'string'},                    
-	                    {name: 'shi_estado', type: 'string'},
-	                    {name: 'id_user', type: 'string'},
-	                    {name: 'fecha_actual', type: 'string'}
-	                ],
-	                autoLoad:true,
-	                proxy:{
-	                    type: 'ajax',
-	                    url: user.url+'get_list_shipper/',
-	                    reader:{
-	                        type: 'json',
-	                        rootProperty: 'data'
-	                    }
-	                },
-	                listeners:{
-	                    load: function(obj, records, successful, opts){
-	                        
-	                    }
-	                }
-	            });
-	            var store_contratos = Ext.create('Ext.data.Store',{
-	                fields: [
-	                    {name: 'fac_cliente', type: 'string'},
-	                    {name: 'cod_contrato', type: 'string'},
-	                    {name: 'pro_descri', type: 'string'}
-	                ],
-	                autoLoad:false,
-	                proxy:{
-	                    type: 'ajax',
-	                    url: user.url+'get_list_contratos/',
-	                    reader:{
-	                        type: 'json',
-	                        rootProperty: 'data'
-	                    }
-	                },
-	                listeners:{
-	                    load: function(obj, records, successful, opts){
-	                        
-	                    }
-	                }
-	            });
+
 
 	            var store_plantillas = Ext.create('Ext.data.Store',{
 	                fields: [
@@ -709,8 +664,8 @@
 			    });
 
 			    var myDataUser = [
-					[1,'Activo'], 
-				    [0,'Inactivo']
+					[1,'Activo']
+					//,[0,'Inactivo']
 				];
 				var store_estado_user = Ext.create('Ext.data.ArrayStore', {
 			        storeId: 'perfil',
@@ -719,12 +674,59 @@
 			        fields: ['code', 'name']
 			    });
 
+			    var store_shipper = Ext.create('Ext.data.Store',{
+	                fields: [
+	                    {name: 'shi_codigo', type: 'string'},
+	                    {name: 'shi_nombre', type: 'string'},
+	                    {name: 'shi_logo', type: 'string'},
+	                    {name: 'fec_ingreso', type: 'string'},                    
+	                    {name: 'shi_estado', type: 'string'},
+	                    {name: 'id_user', type: 'string'},
+	                    {name: 'fecha_actual', type: 'string'}
+	                ],
+	                autoLoad:true,
+	                proxy:{
+	                    type: 'ajax',
+	                    url: user.url+'get_list_shipper/',
+	                    reader:{
+	                        type: 'json',
+	                        rootProperty: 'data'
+	                    }
+	                },
+	                listeners:{
+	                    load: function(obj, records, successful, opts){
+	                        
+	                    }
+	                }
+	            });
+	            var store_contratos = Ext.create('Ext.data.Store',{
+	                fields: [
+	                    {name: 'fac_cliente', type: 'string'},
+	                    {name: 'cod_contrato', type: 'string'},
+	                    {name: 'pro_descri', type: 'string'}
+	                ],
+	                autoLoad:false,
+	                proxy:{
+	                    type: 'ajax',
+	                    url: user.url+'get_list_contratos/',
+	                    reader:{
+	                        type: 'json',
+	                        rootProperty: 'data'
+	                    }
+	                },
+	                listeners:{
+	                    load: function(obj, records, successful, opts){
+	                        
+	                    }
+	                }
+	            });
+
                 Ext.create('Ext.window.Window',{
 	                id:user.id+'-win-form',
 	                plain: true,
 	                title:'Mantenimiento Usuario',
 	                icon: '/images/icon/default-avatar_man.png',
-	                height: 300,
+	                height: 400,
 	                width: 400,
 	                resizable:false,
 	                modal: true,
@@ -856,7 +858,70 @@
                         
                                 }
                             }
+                        },
+                    	{
+
+                            xtype:'combo',
+                            fieldLabel: 'Cliente',
+                            id:user.id+'-cbx-cliente',
+                            store: store_shipper,
+                            queryMode: 'local',
+                            triggerAction: 'all',
+                            valueField: 'shi_codigo',
+                            displayField: 'shi_nombre',
+                            emptyText: '[Seleccione]',
+                            labelAlign:'right',
+                            //allowBlank: false,
+                            labelWidth: 50,
+                            width:'100%',
+                            anchor:'100%',
+                            //readOnly: true,
+                            listeners:{
+                                afterrender:function(obj, e){
+                                    // obj.getStore().load();
+                                },
+                                select:function(obj, records, eOpts){
+                                	Ext.getCmp(user.id+'-cbx-contrato').setValue('');
+                        			user.getContratos(records.get('shi_codigo'));
+                                }
+                            }
+                        },
+                        {
+
+                            xtype:'combo',
+                            fieldLabel: 'Contrato',
+                            id:user.id+'-cbx-contrato',
+                            store: store_contratos,
+                            queryMode: 'local',
+                            triggerAction: 'all',
+                            valueField: 'fac_cliente',
+                            displayField: 'pro_descri',
+                            emptyText: '[Seleccione]',
+                            labelAlign:'right',
+                            //allowBlank: false,
+                            labelWidth: 50,
+                            width:'100%',
+                            anchor:'100%',
+                            //readOnly: true,
+                            listeners:{
+                                afterrender:function(obj, e){
+                                    // obj.getStore().load();
+                                },
+                                select:function(obj, records, eOpts){
+                        			
+                                }
+                            }
                         }
+
+
+
+
+
+
+
+
+
+
 	                ],
 	                bbar:[       
 	                    '->',
@@ -906,6 +971,8 @@
 		    	var nombre = Ext.getCmp(user.id+'-txt-nombre-user').getValue();
 		    	var perfil = Ext.getCmp(user.id+'-cmb-perfil').getValue();
 		    	var estado = Ext.getCmp(user.id+'-cmb-estado-user').getValue();
+		    	var cliente = Ext.getCmp(user.id+'-cbx-cliente').getValue();
+		    	var contrato = Ext.getCmp(user.id+'-cbx-contrato').getValue();
 
 				if(usuario==''){ 
 					global.Msg({msg:"Ingrese Usuario.",icon:2,fn:function(){}});
@@ -946,7 +1013,9 @@
 			                    	vp_usr_passwd:clave,
 			                    	vp_usr_nombre:nombre,
 			                    	vp_usr_perfil:perfil,
-			                    	vp_usr_estado:estado
+			                    	vp_usr_estado:estado,
+			                    	vp_usr_cliente:cliente,
+			                    	vp_usr_contrato:contrato
 			                    },
 			                    timeout: 300000,
 			                    success: function(response, options){
