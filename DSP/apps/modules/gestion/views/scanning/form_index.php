@@ -13,6 +13,10 @@
 			shi_codigo:0,
 			id_det:0,
 			id_lote:0,
+			vp_cli:0,
+			vp_con:0,
+			cli:0,
+			con:0,
 			group1:'',
 			group2:'',
 			trabajando:1,
@@ -155,7 +159,7 @@
 	                autoLoad:false,
 	                proxy:{
 	                    type: 'ajax',
-	                    url: scanning.url+'insert/',
+	                    url: scanning.url+'get_scanner/',
 	                    reader:{
 	                        type: 'json',
 	                        rootProperty: 'data'
@@ -167,12 +171,12 @@
 	                    }
 	                }
 	            });
-				var store_shipper = Ext.create('Ext.data.Store',{
+				var store_usr_shipper = Ext.create('Ext.data.Store',{
 	                fields: [
 	                    {name: 'shi_codigo', type: 'string'},
 	                    {name: 'shi_nombre', type: 'string'},
 	                    {name: 'shi_logo', type: 'string'},
-	                    {name: 'fec_ingreso', type: 'string'},                    
+	                    {name: 'fec_ingreso', type: 'string'},
 	                    {name: 'shi_estado', type: 'string'},
 	                    {name: 'id_user', type: 'string'},
 	                    {name: 'fecha_actual', type: 'string'}
@@ -180,7 +184,7 @@
 	                autoLoad:true,
 	                proxy:{
 	                    type: 'ajax',
-	                    url: scanning.url+'get_list_shipper/',
+	                    url: scanning.url+'get_usr_shipper/',
 	                    reader:{
 	                        type: 'json',
 	                        rootProperty: 'data'
@@ -293,7 +297,7 @@
 				                                            xtype:'combo',
 				                                            fieldLabel: 'Cliente',
 				                                            id:scanning.id+'-cbx-cliente',
-				                                            store: store_shipper,
+				                                            store: store_usr_shipper,
 				                                            queryMode: 'local',
 				                                            triggerAction: 'all',
 				                                            valueField: 'shi_codigo',
@@ -311,8 +315,10 @@
 				                                                },
 				                                                select:function(obj, records, eOpts){
 				                                                	Ext.getCmp(scanning.id+'-cbx-contrato').setValue('');
+				                                                	scanning.shi_codigo=records.get('shi_codigo');
 				                                        			scanning.getContratos(records.get('shi_codigo'));
-				                                                }
+
+				                                        					                                                }
 				                                            }
 				                                        }
 			                                 		]
@@ -343,7 +349,7 @@
 			                                                            // obj.getStore().load();
 			                                                        },
 			                                                        select:function(obj, records, eOpts){ 
-			                                                			
+			                                                		
 			                                                        }
 			                                                    }
 			                                                }
@@ -649,6 +655,7 @@
 									                                });*/
 									                            },
 									                            click: function(obj, e){
+
 									                            	scanning.getScannear();
 									                            }
 									                        }
@@ -1774,8 +1781,9 @@
 				scanning.getLoader(true);
 				Ext.getCmp(scanning.id + '-grid-paginas-tmp').getStore().removeAll();
 				var destino=Ext.getCmp(scanning.id+'-txt-origen').getValue();
+				var cliente=scanning.shi_codigo;
 				Ext.getCmp(scanning.id + '-grid-paginas-tmp').getStore().load(
-	                {params: {path:destino},
+	                {params: {path:destino,cli:cliente},
 	                callback:function(){
 	                	//Ext.getCmp(scanning.id+'-form').el.unmask();
 	                	scanning.getLoader(false);
@@ -1967,6 +1975,7 @@
 	                }
 	            });
 			},
+
 			getReloadGridscanning:function(){
 				//scanning.set_scanning_clear();
 				//Ext.getCmp(scanning.id+'-form').el.mask('Cargando…', 'x-mask-loading');
@@ -1977,6 +1986,7 @@
 				var name = Ext.getCmp(scanning.id+'-txt-scanning').getValue();
 				var estado = 'A';//Ext.getCmp(scanning.id+'-txt-estado-filter').getValue();
 				var fecha = Ext.getCmp(scanning.id+'-txt-fecha-filtro').getRawValue();
+				var cliente=scanning.shi_codigo;
 
 				if(shi_codigo== null || shi_codigo==''){
 		            global.Msg({msg:"Seleccione un Cliente por favor.",icon:2,fn:function(){}});
@@ -1994,7 +2004,7 @@
 		            return false;
 		        }
 				Ext.getCmp(scanning.id + '-grid').getStore().load(
-	                {params: {vp_shi_codigo:shi_codigo,vp_fac_cliente:fac_cliente,vp_seleccionar:seleccionado,vp_lote:lote,vp_lote_estado:'ES',vp_name:name,fecha:fecha,vp_estado:estado},
+	                {params: {vp_shi_codigo:shi_codigo,vp_fac_cliente:fac_cliente,vp_seleccionar:seleccionado,vp_lote:lote,vp_lote_estado:'ES',vp_name:name,fecha:fecha,vp_estado:estado,cli:cliente},
 	                callback:function(){
 	                	//Ext.getCmp(scanning.id+'-form').el.unmask();
 	                }

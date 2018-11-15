@@ -207,7 +207,9 @@ class scanningController extends AppController {
         return $this->response($data);
     }
     public function get_scanner($p){
-        $p['path'] = PATH.'public_html/contenedor/'.USR_ID.'/';
+        $cliente=$p['cli'];
+        if ($cliente > 0) {
+        $p['path'] = PATH.'public_html/contenedor/'.$cliente.'/';
         if (!file_exists($p['path'])) {
             mkdir($p['path'], 0777, true);
         }
@@ -240,8 +242,8 @@ class scanningController extends AppController {
         }*/
 
         try {
-            if (is_dir(PATH.'public_html/contenedor/'.USR_ID.'/')){
-                  if ($dh = opendir(PATH.'public_html/contenedor/'.USR_ID.'/')){
+            if (is_dir(PATH.'public_html/contenedor/'.$cliente.'/')){
+                  if ($dh = opendir(PATH.'public_html/contenedor/'.$cliente.'/')){
                     /*if (!file_exists(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['vp_id_lote'])) {
                         mkdir(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['vp_id_lote'], 0777, true);
                     }*/
@@ -250,18 +252,19 @@ class scanningController extends AppController {
                         if(trim($file)!=".." ){
                             if(trim($file)!="." ){
                                 try {
-                                    if($this->getValidFormat(utf8_encode(trim($file)))){
+                                    if($this->getValidFormat(utf8_encode(trim($file)),$cliente))
+                                    {
                                         $value_['id_pag'] = 0;
                                         $value_['id_det'] = 0;
                                         $value_['id_lote'] = 0;
-                                        $value_['path'] = '/contenedor/'.USR_ID.'/';
+                                        $value_['path'] = '/contenedor/'.$cliente.'/';
                                         $value_['file'] = utf8_encode(trim($file));
                                         $value_['imgorigen'] = utf8_encode(trim($file));
                                         $value_['lado'] = 'A';
                                         $value_['estado'] = 'A';
                                         $value_['include'] ='N';
                                         $array[]=$value_;
-                                        $this->setResizeImage(utf8_encode(trim($file)));
+                                        $this->setResizeImage(utf8_encode(trim($file)),$cliente);
                                     }
                                 } catch (Exception $e) {
                                     //echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -285,8 +288,10 @@ class scanningController extends AppController {
         header('Content-Type: application/json');
         return $this->response($data);
     }
-    public function getValidFormat($nameimg){
-        $path_parts = pathinfo(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg);
+    }
+
+    public function getValidFormat($nameimg,$cliente){
+        $path_parts = pathinfo(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg);
         $ext=$path_parts['extension'];
         $bool=false;
         switch($ext){
@@ -312,33 +317,33 @@ class scanningController extends AppController {
         }
         return $bool;
     }
-    public function setResizeImage($nameimg){
-        $path_parts = pathinfo(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg);
+    public function setResizeImage($nameimg,$cliente){
+        $path_parts = pathinfo(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg);
         $ext=$path_parts['extension'];
         $w=40;
         $y=60;
         switch($ext){
             #case 'bmp': $sourceImage = $img = $this->resize_imagejpg(PATH.'public_html/tmp/'.$nameimg, 50, 70); break;
             case 'gif': 
-                $img = $this->resize_imagegif(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagegif(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg, $w, $y); 
             break;
             case 'jpg': 
-                $img = $this->resize_imagejpg(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagejpg(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg, $w, $y); 
             break;
             case 'png': 
-                $img = $this->resize_imagepng(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagepng(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg, $w, $y); 
             break;
             case 'tiff': 
-                $img = $this->resize_imagetiff(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagetiff(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg, $w, $y); 
             break;
             case 'pdf': 
-                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg, $w, $y); 
             break;     
             case 'docx': 
-                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg, $w, $y); 
             break; 
             default : 
-                $img = $this->resize_imagedocx(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagedocx(PATH.'public_html/contenedor/'.$cliente.'/'.$nameimg, $w, $y); 
             break;
         }
         imagejpeg($img, PATH.'public_html/tumblr/'.$nameimg);
@@ -521,6 +526,34 @@ class scanningController extends AppController {
         header('Content-Type: application/json');
         return $this->response($data);
     }
+    
+   public function get_usr_shipper($p){
+        $rs = $this->objDatos->get_usr_shipper($p);
+        //var_export($rs);
+        $array = array();
+        $lote = 0;
+        foreach ($rs as $index => $value){
+            $value_['shi_codigo'] = intval($value['shi_codigo']);
+            $value_['shi_nombre'] = utf8_encode(trim($value['shi_nombre']));
+            $value_['shi_logo'] = utf8_encode(trim($value['shi_logo']));
+            $value_['fec_ingreso'] = trim($value['fec_ingreso']);
+            $value_['shi_estado'] = intval(trim($value['shi_estado']));
+            $value_['id_user'] = intval(trim($value['id_user']));
+            $value_['fecha_actual'] = utf8_encode(trim($value['fecha_actual']));
+            $array[]=$value_;
+        }
+
+        $data = array(
+            'success' => true,
+            'error'=>0,
+            'total' => count($array),
+            'data' => $array
+        );
+        header('Content-Type: application/json');
+        return $this->response($data);
+    }
+
+
     public function get_list_contratos($p){
         $rs = $this->objDatos->get_list_contratos($p);
         //var_export($rs);

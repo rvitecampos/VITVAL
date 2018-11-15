@@ -116,6 +116,16 @@ class scanningModels extends Adodb {
         $array = parent::ExecuteSPArray();
         return $array;
     }
+
+       public function get_usr_shipper($p){
+        parent::ReiniciarSQL();
+        parent::ConnectionOpen($this->dsn, 'get_usr_shipper');
+        parent::SetParameterSP(USR_ID, 'int');
+        // echo '=>' . parent::getSql().'<br>'; exit();
+        $array = parent::ExecuteSPArray();
+        return $array;
+    }
+    
     public function get_list_contratos($p){
         parent::ReiniciarSQL();
         parent::ConnectionOpen($this->dsn, 'get_list_contratos');
