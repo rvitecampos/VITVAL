@@ -155,7 +155,7 @@
 	                autoLoad:false,
 	                proxy:{
 	                    type: 'ajax',
-	                    url: scanning.url+'get_scanner/',
+	                    url: scanning.url+'insert/',
 	                    reader:{
 	                        type: 'json',
 	                        rootProperty: 'data'

@@ -10,6 +10,8 @@
 			shi_codigo:0,
 			fac_cliente:0,
 			lote:0,
+			id_shi_cod:0,
+			id_cod_con:0, 
 			paramsStore:{},
 			init:function(){
 				Ext.tip.QuickTipManager.init();
@@ -87,7 +89,9 @@
 	                    {name: 'usr_estado', type: 'string'},
 	                    {name: 'id_usuario', type: 'string'},
 	                    {name: 'fecact', type: 'string'},
-	                    {name: 'hora', type: 'string'}
+	                    {name: 'hora', type: 'string'},
+	                    {name: 'shi_nombre', type: 'string'},
+	                    {name: 'pro_descri', type: 'string'}	                    	                    
 	                ],
 	                autoLoad:true,
 	                proxy:{
@@ -104,6 +108,9 @@
 	                    }
 	                }
 	            });
+
+
+
 				
 
 
@@ -295,15 +302,15 @@
                             region:'north',
                             layout:'border',
                             border:false,
-                            height:90,
+                            height:90,	
                             items:[
 		                        {
 		                            region:'center',
 		                            border:false,
 		                            xtype: 'uePanelS',
 		                            logo: 'DC',
-		                            title: 'Busqueda de Documentos',
-		                            legend: 'Búsqueda de Lotes registrados',
+		                            title: 'Busqueda de Usuarios',
+		                            legend: 'Búsqueda de usuarios registrados',
 		                            width:1100,
 		                            height:90,
 		                            items:[
@@ -428,7 +435,7 @@
 									                                    fn: ['panel_asignar_gestion.limpiar']
 									                                });*/
 									                            },
-									                            click: function(obj, e){	             	
+									                            click: function(obj, e){
 		                               					            user.getNew();
 									                            }
 									                        }
@@ -491,6 +498,16 @@
 			                                        }
 			                                        return perfil;
 			                                    }
+			                                },
+			                                {
+			                                    text: 'Cliente',
+			                                    dataIndex: 'shi_nombre',
+			                                    width: 100
+			                                },
+			                                			                                			                                {
+			                                    text: 'Contrato',
+			                                    dataIndex: 'pro_descri',
+			                                    width: 100
 			                                },
 			                                {
 			                                    text: 'Fecha',
@@ -645,17 +662,37 @@
 	            }).show().center();
 			},
 			getNew:function(){
-				user.setForm('I',{id_user:0,usr_codigo:'',usr_nombre:'',usr_perfil:1,usr_estado:1});
+				user.setForm('I',{id_user:0,usr_codigo:'',usr_nombre:'',usr_perfil:0,usr_estado:1});
 			},
 			setForm:function(op,data){
 
-                var myDataPerfil = [
-					[1,'Básico'], 
-				    [2,'Consultor'],
-				    [3,'Intermedio'],
-				    [4,'Supervisor'],
-				    [5,'Administrador']
-				];
+			    var myDataPerfil = Ext.create('Ext.data.Store',{
+	                fields: [
+	                    {name: 'code', type: 'string'},
+	                    {name: 'name', type: 'string'}
+	                ],
+	                autoLoad:true,
+	                proxy:{
+	                    type: 'ajax',
+	                    url: user.url+'get_usr_DataPerfil/',
+	                    reader:{
+	                        type: 'json',
+	                        rootProperty: 'data'
+	                    }
+	                },
+	                listeners:{
+	                    load: function(obj, records, successful, opts){
+	                        
+	                    }
+	                }
+	            });
+
+	            var myDataPerfilx = [
+						[1,'Básico'], 
+					    [4,'Supervisor'],
+					    [5,'Administrador']
+	  			]; 
+
 				var store_perfil = Ext.create('Ext.data.ArrayStore', {
 			        storeId: 'perfil',
 			        autoLoad: true,
@@ -674,7 +711,7 @@
 			        fields: ['code', 'name']
 			    });
 
-			    var store_shipper = Ext.create('Ext.data.Store',{
+			    var store_usr_shipper = Ext.create('Ext.data.Store',{
 	                fields: [
 	                    {name: 'shi_codigo', type: 'string'},
 	                    {name: 'shi_nombre', type: 'string'},
@@ -687,7 +724,7 @@
 	                autoLoad:true,
 	                proxy:{
 	                    type: 'ajax',
-	                    url: user.url+'get_list_shipper/',
+	                    url: user.url+'get_usr_shipper/',
 	                    reader:{
 	                        type: 'json',
 	                        rootProperty: 'data'
@@ -809,7 +846,7 @@
                             bodyStyle: 'background: transparent',
 		                    padding:'5px 5px 5px 5px',
                             id:user.id+'-cmb-perfil',
-                            store: store_perfil,
+                            store: myDataPerfil,
                             queryMode: 'local',
                             triggerAction: 'all',
                             valueField: 'code',
@@ -825,8 +862,34 @@
                                 afterrender:function(obj, e){
                                     // obj.getStore().load();
                                     Ext.getCmp(user.id+'-cmb-perfil').setValue(data.usr_perfil);
+
+
+
                                 },
                                 select:function(obj, records, eOpts){
+								var perfil = Ext.getCmp(user.id+'-cmb-perfil').getValue();
+                                	//Ext.Msg.alert(perfil, perfil);
+                               		if (perfil == 5) {
+                                    	Ext.getCmp(user.id+'-cbx-cliente').setValue(0);	
+                                    	Ext.getCmp(user.id+'-cbx-cliente').hide();	                                    	
+
+                                    	Ext.getCmp(user.id+'-cbx-contrato').setValue(0);	
+                                    	Ext.getCmp(user.id+'-cbx-contrato').hide();	                                    	
+                                  
+                                    } else  
+                                    if (perfil == 4) {
+                    	               	Ext.getCmp(user.id+'-cbx-cliente').setValue(0);	
+                                    	Ext.getCmp(user.id+'-cbx-cliente').show();	                                    	
+
+                                    	Ext.getCmp(user.id+'-cbx-contrato').setValue(0);	
+                                    	Ext.getCmp(user.id+'-cbx-contrato').hide();	                                             
+                                    } else  
+                                    {
+                                    	Ext.getCmp(user.id+'-cbx-cliente').setValue(0);	
+                                    	Ext.getCmp(user.id+'-cbx-cliente').show();                                    	
+                                    	Ext.getCmp(user.id+'-cbx-contrato').setValue(0);	
+                                    	Ext.getCmp(user.id+'-cbx-contrato').show();	
+                                    }
                         
                                 }
                             }
@@ -864,7 +927,7 @@
                             xtype:'combo',
                             fieldLabel: 'Cliente',
                             id:user.id+'-cbx-cliente',
-                            store: store_shipper,
+                            store: store_usr_shipper,
                             queryMode: 'local',
                             triggerAction: 'all',
                             valueField: 'shi_codigo',
