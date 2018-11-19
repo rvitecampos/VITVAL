@@ -122,6 +122,32 @@
                     }
                 }
             });
+			var store_usr_shipper = Ext.create('Ext.data.Store',{
+                fields: [
+                    {name: 'shi_codigo', type: 'string'},
+                    {name: 'shi_nombre', type: 'string'},
+                    {name: 'shi_logo', type: 'string'},
+                    {name: 'fec_ingreso', type: 'string'},                    
+                    {name: 'shi_estado', type: 'string'},
+                    {name: 'id_user', type: 'string'},
+                    {name: 'fecha_actual', type: 'string'}
+                ],
+                autoLoad:true,
+                proxy:{
+                    type: 'ajax',
+                    url: lotizer.url+'get_usr_shipper/',
+                    reader:{
+                        type: 'json',
+                        rootProperty: 'data'
+                    }
+                },
+                listeners:{
+                    load: function(obj, records, successful, opts){
+                        
+                    }
+                }
+            });
+
             var store_contratos = Ext.create('Ext.data.Store',{
                 fields: [
                     {name: 'fac_cliente', type: 'string'},
@@ -197,9 +223,9 @@
 		                            region:'west',
 		                            border:false,
 		                            xtype: 'uePanelS',
-		                            logo: 'CL',
-		                            title: 'Clientes y Contratos',
-		                            legend: 'Seleccione Clientes Registrados',
+		                            logo: 'Ar',
+		                            title: 'Areas',
+		                            legend: 'Seleccione Cliente',
 		                            width:600,
 		                            //height:90,
 		                            items:[
@@ -219,7 +245,7 @@
 			                                                    xtype:'combo',
 			                                                    fieldLabel: 'Cliente',
 			                                                    id:lotizer.id+'-cbx-cliente',
-			                                                    store: store_shipper,
+			                                                    store: store_usr_shipper,
 			                                                    queryMode: 'local',
 			                                                    triggerAction: 'all',
 			                                                    valueField: 'shi_codigo',
@@ -250,7 +276,7 @@
 			                                 		items:[
 			                                                {
 			                                                    xtype:'combo',
-			                                                    fieldLabel: 'Contrato',
+			                                                    fieldLabel: 'Area',
 			                                                    id:lotizer.id+'-cbx-contrato',
 			                                                    store: store_contratos,
 			                                                    queryMode: 'local',
@@ -284,8 +310,8 @@
 		                            border:false,
 		                            xtype: 'uePanelS',
 		                            logo: 'LT',
-		                            title: 'Listado de Lotes',
-		                            legend: 'Búsqueda de Lotes registrados',
+		                            title: 'Listado',
+		                            legend: 'Búsqueda',
 		                            width:1000,
 		                            height:90,
 		                            items:[
@@ -312,6 +338,7 @@
 			                                                    displayField: 'name',
 			                                                    emptyText: '[Seleccione]',
 			                                                    labelAlign:'right',
+			                                                    hidden:true,
 			                                                    //allowBlank: false,
 			                                                    labelWidth: 55,
 			                                                    width:'100%',
@@ -415,6 +442,7 @@
 			                                                    displayField: 'name',
 			                                                    emptyText: '[Seleccione]',
 			                                                    labelAlign:'right',
+			                                                    hidden:true,
 			                                                    //allowBlank: false,
 			                                                    labelWidth: 50,
 			                                                    width:'100%',
@@ -480,7 +508,7 @@
 												{
 			                                        xtype: 'fieldset',
 			                                        margin: '5 5 5 10',
-			                                        title:'<b>Mantenimiento Lotes</b>',
+			                                        title:'<b>Mantenimiento Areas</b>',
 			                                        border:true,
 			                                        bodyStyle: 'background: transparent',
 			                                        padding:'2px 5px 1px 5px',
@@ -979,7 +1007,7 @@
 			        lotizer.shi_codigo=shi_codigo;
 					var fac_cliente = Ext.getCmp(lotizer.id+'-cbx-contrato').getValue();
 					if(fac_cliente== null || fac_cliente==''){
-			            global.Msg({msg:"Seleccione un Contrato por favor.",icon:2,fn:function(){}});
+			            global.Msg({msg:"Seleccione un Area por favor.",icon:2,fn:function(){}});
 			            return false;
 			        }
 			        lotizer.fac_cliente=fac_cliente;
