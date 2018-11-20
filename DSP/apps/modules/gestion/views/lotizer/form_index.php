@@ -171,8 +171,8 @@
             });
 
 		    var myDataLote = [
-				['A','Activo'],
-			    ['I','Inactivo']
+				['A','Activo']
+				//,			    ['I','Inactivo']
 			];
 			var store_estado_lote = Ext.create('Ext.data.ArrayStore', {
 		        storeId: 'estado',
@@ -719,7 +719,7 @@
 						                                    flex: 2
 						                                },
 						                                {
-						                                    text: 'Estado Lote',
+						                                    text: 'Estado',
 						                                    dataIndex: 'lot_estado',
 						                                    loocked : true,
 						                                    width: 100,
@@ -763,12 +763,12 @@
 						                                    width: 80,
 						                                    align: 'center'
 						                                },
-						                                {
+						                                /*{
 						                                    text: 'Total Pag. Errores',
 						                                    dataIndex: 'tot_errpag',
 						                                    width: 100,
 						                                    align: 'center'
-						                                },
+						                                },*/
 						                                {
 						                                    text: 'User',
 						                                    dataIndex: 'usr_update',
@@ -812,10 +812,11 @@
 							                                            type: 'link',
 							                                            id_menu: lotizer.id_menu,
 							                                            icons:[
-							                                                {id_serv: 1, img: 'ico_editar.gif', qtip: 'Click para Editar Lote.', js: "lotizer.setEditLote("+rowIndex+",'U')"},
-							                                                {id_serv: 1, img: '1315404769_gear_wheel.png', qtip: 'Cerrar Lote.', js: "lotizer.setCerrarEscaneado('L',"+shi_codigo+","+id_lote+")"},
-							                                                {id_serv: 1, img: 'recicle_nov.ico', qtip: 'Click para Desactivar Lote.', js: "lotizer.setEditLote("+rowIndex+",'D')"},
-							                                                {id_serv: 1, img: 'barras.png', qtip: 'Click Código de Barras.', js: "lotizer.getFormMant('"+nombrePdf+"')"}
+							                                                {id_serv: 1, img: 'ico_editar.gif', qtip: 'Click para Editar.', js: "lotizer.setEditLote("+rowIndex+",'U')"},
+							                                             //   {id_serv: 1, img: '1315404769_gear_wheel.png', qtip: 'Cerrar Lote.', js: "lotizer.setCerrarEscaneado('L',"+shi_codigo+","+id_lote+")"},
+							                                                {id_serv: 1, img: 'recicle_nov.ico', qtip: 'Click para Desactivar.', js: "lotizer.setEditLote("+rowIndex+",'D')"}
+							                                                //,
+							                                                //{id_serv: 1, img: 'barras.png', qtip: 'Click Código de Barras.', js: "lotizer.getFormMant('"+nombrePdf+"')"}
 
 							                                            ]
 							                                        });

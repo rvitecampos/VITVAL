@@ -275,11 +275,11 @@
 		                            region:'north',
 		                            border:false,
 		                            xtype: 'uePanelS',
-		                            logo: 'BE',
-		                            title: 'Panel de Escaneado',
-		                            legend: 'Seleccione el Lote Registrado',
+		                            logo: 'AR',
+		                            title: 'Areas',
+		                            legend: 'Seleccione Cliente',
 		                            width:390,
-		                            height:250,
+		                            height:180,
 		                            items:[
 		                                {
 		                                    xtype:'panel',
@@ -330,7 +330,7 @@
 			                                 		items:[
 			                                                {
 			                                                    xtype:'combo',
-			                                                    fieldLabel: 'Contrato',
+			                                                    fieldLabel: 'Area',
 			                                                    id:scanning.id+'-cbx-contrato',
 			                                                    store: store_contratos,
 			                                                    queryMode: 'local',
@@ -372,6 +372,7 @@
 			                                                    emptyText: '[Seleccione]',
 			                                                    labelAlign:'right',
 			                                                    //allowBlank: false,
+			                                                    hidden:true,
 			                                                    labelWidth: 55,
 			                                                    width:'100%',
 			                                                    anchor:'100%',
@@ -402,6 +403,7 @@
 		                                            id:scanning.id+'-panel-lote',
 		                                            disabled:true,
 		                                            padding:'0px 2px 0px 0px',  
+		                                            hidden:true,
 		                                            bodyStyle: 'background: transparent',
 		                                            items:[
 		                                                {
@@ -422,6 +424,7 @@
 		                                            disabled:true,
 		                                            id:scanning.id+'-panel-nombre',
 		                                            padding:'0px 2px 0px 0px',  
+		                                            hidden:true,
 		                                            bodyStyle: 'background: transparent',
 		                                            items:[
 		                                                {
@@ -451,6 +454,7 @@
 			                                                fieldLabel:'Fecha',
 			                                                labelWidth: 55,
 			                                                labelAlign:'right',
+			                                                hidden:true,
 			                                                value:new Date(),
 			                                                format: 'Ymd',
 			                                                //readOnly:true,
@@ -488,7 +492,7 @@
 									region:'center',
 									layout:'border',
 									border:true,
-									padding:'5px 5px 5px 5px',
+									padding:'2px 2px 2px 2px',
 									items:[
 										{
 											region:'center',
@@ -575,7 +579,7 @@
 							                                            type: 'link',
 							                                            id_menu: scanning.id_menu,
 							                                            icons:[
-							                                                {id_serv: 3, img: '1315404769_gear_wheel.png', qtip: 'Cerrar Escaneado.', js: "scanning.setCerrarEscaneado("+shi_codigo+","+fac_cliente+","+id_lote+")"},
+							                                              /*  {id_serv: 3, img: '1315404769_gear_wheel.png', qtip: 'Cerrar Escaneado.', js: "scanning.setCerrarEscaneado("+shi_codigo+","+fac_cliente+","+id_lote+")"},*/
 							                                                {id_serv: 3, img: '1348695561_stock_mail-send-receive.png', qtip: 'RE-ORDENAR.', js: "scanning.setChangeOrder("+shi_codigo+","+fac_cliente+","+id_lote+")"}
 							                                            ]
 							                                        });
