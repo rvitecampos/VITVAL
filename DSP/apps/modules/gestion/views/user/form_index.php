@@ -505,7 +505,7 @@
 			                                    width: 100
 			                                },
 			                                			                                			                                {
-			                                    text: 'Contrato',
+			                                    text: 'Areas',
 			                                    dataIndex: 'pro_descri',
 			                                    width: 100
 			                                },

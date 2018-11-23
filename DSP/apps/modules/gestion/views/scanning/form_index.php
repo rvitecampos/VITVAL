@@ -991,6 +991,47 @@
 		                                                }
 													]
 												},
+
+												{
+													region:'north',
+													id:scanning.id + '-upload',
+												    fileUpload: true,
+									                width: 500,
+									                autoHeight: true,
+									                bodyStyle: 'padding: 10px 10px 10px 10px;',
+									                labelWidth: 50,
+									                defaults: {
+									                    anchor: '95%',
+									                    allowBlank: false,
+									                    msgTarget: 'side'
+									                },
+									                items:[
+									                {
+									                    xtype: 'fileuploadfield',
+									                    id: 'filedata',
+									                    emptyText: 'Select a document to upload...',
+									                    fieldLabel: 'File',
+									                    width: 400,
+									                    buttonText: 'Browse'
+									                }],
+									                buttons: [{
+									                    text: 'Upload',									                    
+									                    handler: function(){
+									                    	var form = Ext.getCmp(scanning.id + '-form').getForm();
+									                        if (form.isValid()){
+									                            form_action=1;
+									                            form.submit({
+									                                url: scanning.url+'upload/',
+									                                //'handleupload.php',
+									                                waitMsg: 'Uploading file...',
+									                                success: function(form,action){
+									                                    msg('Success', 'Processed file on the server');
+									                                }
+									                            });
+									                        }
+									                    }
+									                }]
+												},
 												{
 													region:'center',
 													border:false,
