@@ -1,10 +1,10 @@
 <script type="text/javascript">
 	var tab = Ext.getCmp(inicio.id+'-tabContent');
-	if(!Ext.getCmp('client-tab')){
-		var client = {
-			id:'client',
+	if(!Ext.getCmp('client2-tab')){
+		var client2 = {
+			id:'client2',
 			id_menu:'<?php echo $p["id_menu"];?>',
-			url:'/gestion/client/',
+			url:'/gestion/client2/',
 			opcion:'I',
 			id_lote:0,
 			shi_codigo:0,
@@ -30,7 +30,7 @@
 				    autoLoad:false,
 	                proxy: {
 	                    type: 'ajax',
-	                    url: client.url+'get_list_clientcontratos/'
+	                    url: client2.url+'get_list_clientcontratos/'
 
 	                },
 	                folderSort: true,
@@ -39,10 +39,10 @@
 
 					    },
 	                    load: function(obj, records, successful, opts){
-	                 		Ext.getCmp(client.id + '-gridTree').doLayout();
+	                 		Ext.getCmp(client2.id + '-gridTree').doLayout();
 	                 		storeTree2.removeAt(0);
-	                 		Ext.getCmp(client.id + '-gridTree').collapseAll();
-		                    Ext.getCmp(client.id + '-gridTree').getRootNode().cascadeBy(function (node) {
+	                 		Ext.getCmp(client2.id + '-gridTree').collapseAll();
+		                    Ext.getCmp(client2.id + '-gridTree').getRootNode().cascadeBy(function (node) {
 		                          if (node.getDepth() < 1) { node.expand(); }
 		                          if (node.getDepth() == 0) { return false; }
 		                     });
@@ -62,7 +62,7 @@
 				    autoLoad:false,
 	                proxy: {	
 	                    type: 'ajax',
-	                    url: client.url+'get_list_client/',
+	                    url: client2.url+'get_list_client/',
 	                    reader:{
 	                        type: 'json',
 	                        rootProperty: 'data'
@@ -86,7 +86,7 @@
                 autoLoad:false,
                 proxy:{
                     type: 'ajax',
-                    url: client.url+'get_list_lotizer/',
+                    url: client2.url+'get_list_lotizer/',
                     reader:{
                         type: 'json',
                         rootProperty: 'data'
@@ -107,7 +107,7 @@
                 autoLoad:false,
                 proxy:{
                     type: 'ajax',
-                    url: client.url+'get_list_contratos/',
+                    url: client2.url+'get_list_contratos/',
                     reader:{
                         type: 'json',
                         rootProperty: 'data'
@@ -120,7 +120,8 @@
                 }
             });
 			var myData = [
-    				['1','Activo']/*,
+    				['1','Activo']
+    				/*,
 				    ['0','Inactivo']*/
 			];
 			var store_estado = Ext.create('Ext.data.ArrayStore', {
@@ -142,7 +143,7 @@
 		    });
 
 				var panel = Ext.create('Ext.form.Panel',{
-					id:client.id+'-form',
+					id:client2.id+'-form',
 					bodyStyle: 'background: transparent',
 					border:false,
 					layout:'border',
@@ -156,7 +157,7 @@
 					]
 				});
 				tab.add({
-					id:client.id+'-tab',
+					id:client2.id+'-tab',
 					border:true,
 					autoScroll:true,
 					closable:true,
@@ -194,11 +195,12 @@
 		                                            border:false,
 		                                            padding:'0px 2px 0px 0px',  
 		                                            bodyStyle: 'background: transparent',
+		                                            hidden:true,
 		                                            items:[
 		                                                {
 		                                                    xtype: 'textfield',	
 		                                                    fieldLabel: 'Cliente',
-		                                                    id:client.id+'-txt-cliente',
+		                                                    id:client2.id+'-txt-cliente',
 		                                                    labelWidth:55,
 		                                                    labelAlign:'right',
 		                                                    width:'100%',
@@ -211,10 +213,11 @@
 			                                        width: 160,border:false,
 			                                        padding:'0px 2px 0px 0px',  
 			                                    	bodyStyle: 'background: transparent',
+			                                    	hidden:true,
 			                                        items:[
 			                                            {
 			                                                xtype:'datefield',
-			                                                id:client.id+'-txt-fecha-filtro',
+			                                                id:client2.id+'-txt-fecha-filtro',
 			                                                fieldLabel:'Fecha',
 			                                                labelWidth:60,
 			                                                labelAlign:'right',
@@ -229,11 +232,12 @@
 			                                   		width: 150,border:false,
 			                                    	padding:'0px 2px 0px 0px',  
 			                                    	bodyStyle: 'background: transparent',
+			                                    	hidden:true,
 			                                 		items:[
 			                                                {
 			                                                    xtype:'combo',
 			                                                    fieldLabel: 'Estado',
-			                                                    id:client.id+'-txt-estado-filter',
+			                                                    id:client2.id+'-txt-estado-filter',
 			                                                    store: store_estado_lote,
 			                                                    queryMode: 'local',
 			                                                    triggerAction: 'all',
@@ -246,7 +250,7 @@
 			                                                    anchor:'100%',
 			                                                    listeners:{
 			                                                        afterrender:function(obj, e){
-			                                                            Ext.getCmp(client.id+'-txt-estado-filter').setValue(' ');
+			                                                            Ext.getCmp(client2.id+'-txt-estado-filter').setValue(' ');
 			                                                        },
 			                                                        select:function(obj, records, eOpts){
 			                                                
@@ -270,8 +274,8 @@
 									                            beforerender: function(obj, opts){
 									                            },
 									                            click: function(obj, e){	             	
-									                            	var name = Ext.getCmp(client.id+'-txt-cliente').getValue();
-									                            	var fecha = Ext.getCmp(client.id+'-txt-fecha-filtro').getValue();
+									                            	var name = Ext.getCmp(client2.id+'-txt-cliente').getValue();
+									                            	var fecha = Ext.getCmp(client2.id+'-txt-fecha-filtro').getValue();
 
 									                            	if(fecha == ' ' || fecha == '' ) 
 									                            
@@ -279,47 +283,49 @@
 									                            				fecha = '';
 									                            	} 
 									                          
-									                            	var estado = Ext.getCmp(client.id+'-txt-estado-filter').getValue();	
+									                            	var estado = Ext.getCmp(client2.id+'-txt-estado-filter').getValue();	
 
 
-		                               					            client.getReloadGridlotizer(name,fecha,estado);
+		                               					            client2.getReloadGridlotizer(name,fecha,estado);
 									                            }
 									                        }
 									                    },
 									                    {
-															id: client.id + '-cancelar',
+															id: client2.id + '-cancelar',
 									                        xtype:'button',
 									                        width:80,
 									                        text: 'Limpiar',
 									                        icon: '/images/icon/broom.png',
+									                        hidden:true,
 									                        listeners:{
 									                            beforerender: function(obj, opts){
 									                            },
 									                            click: function(obj, e){
-																	client.set_lotizer_clear();
+																	client2.set_lotizer_clear();
 									                            }
 									                        }
 									                    },
 
 									                    {
-															id: client.id + '-nuevo',
+															id: client2.id + '-nuevo',
 									                        xtype:'button',
 									                        width:150,
 									                        text: 'Nuevo Cliente',
 									                        icon: '/images/icon/add_green_button.png',
+									                        hidden:true,
 									                        listeners:{
 									                            beforerender: function(obj, opts){
 
 									                            },
 									                            click: function(obj, e){
-																	client.getFormMant('I','','1',0);
+																	client2.getFormMant('I','','1',0);
 									                            }
 									                        }
 									                    },
 
 
 									                    {
-															id: client.id + '-nuevo2',
+															id: client2.id + '-nuevo2',
 									                        xtype:'button',
 									                        width:150,
 									                        text: 'Nueva Area',
@@ -329,7 +335,7 @@
 
 									                            },
 									                            click: function(obj, e){
-																	client.getFormMant2('I','','A',0,0);
+																	client2.getFormMant2('I','','A',0,0);
 									                            }
 									                        }
 									                    },
@@ -365,7 +371,7 @@
 											        useArrows: true,
 											        rootVisible: true,
 											        multiSelect: true,
-							                        id: client.id + '-gridTree',
+							                        id: client2.id + '-gridTree',
 							                        columnLines: true,
 							                        store: storeTree2,
 										            columns: [
@@ -440,9 +446,9 @@
 						                                        
 						                                        return global.permisos({
 						                                            type: 'link',
-						                                            id_menu: client.id_menu,
+						                                            id_menu: client2.id_menu,
 						                                            icons:[
-						                                                {id_serv: 9, img: estado, qtip: qtip, js: ""}
+						                                                {id_serv: 2, img: estado, qtip: qtip, js: ""}
 						                                            ]
 						                                        });
 						                                    }
@@ -461,33 +467,33 @@
 						                                        	var estadoform = record.get('shi_estado');  	
 						                                        	var codigoform = record.get("shi_codigo");  	
 
-						                                        	client.shi_nombre = record.get('shi_nombre');
-						                                        	client.shi_estado = record.get('shi_estado');
+						                                        	client2.shi_nombre = record.get('shi_nombre');
+						                                        	client2.shi_estado = record.get('shi_estado');
 						                                        
 								                                        if(record.get('shi_estado') == '1'){
 									                                        metaData.style = "padding: 0px; margin: 0px";
 									                                        return global.permisos({
 									                                            type: 'link',
-									                                            id_menu: client.id_menu,
+									                                            id_menu: client2.id_menu,
 
 																			
 
 									                                            icons:[
-									                                                {id_serv: 9, img: 'ico_editar.gif', qtip: 'Click para Editar Cliente.', js: "client.getFormMant('U','"+clienteform+"','"+estadoform+"','"+codigoform+"')"},
+									                                                {id_serv: 2, img: 'ico_editar.gif', qtip: 'Click para Editar Cliente.', js: "client2.getFormMant('U','"+clienteform+"','"+estadoform+"','"+codigoform+"')"},
 
-									                                                {id_serv: 9, img: 'recicle_nov.ico', qtip: 'Click para Desactivar Cliente.', js: "client.setEditLote("+rowIndex+",'D')"}
+									                                                {id_serv: 2, img: 'recicle_nov.ico', qtip: 'Click para Desactivar Cliente.', js: "client2.setEditLote("+rowIndex+",'D')"}
 									                                            ]
 									                                        });
 									                                    }else{
 									                                        metaData.style = "padding: 0px; margin: 0px";
 									                                        return global.permisos({
 									                                            type: 'link',
-									                                            id_menu: client.id_menu,
+									                                            id_menu: client2.id_menu,
 
 																			
 
 									                                            icons:[
-									                                                {id_serv: 9, img: 'ico_editar.gif', qtip: 'Click para Editar Cliente.', js: "client.getFormMant('U','"+clienteform+"','"+estadoform+"','"+codigoform+"')"}
+									                                                {id_serv: 2, img: 'ico_editar.gif', qtip: 'Click para Editar Cliente.', js: "client2.getFormMant('U','"+clienteform+"','"+estadoform+"','"+codigoform+"')"}
 									                                            ]
 									                                        });
 								                                        }
@@ -497,8 +503,8 @@
 							                                  		var codigoform = record.get("shi_codigo");
 							                                  		var contraform = record.get("cod_contrato");
 
-						                                        	client.shi_nombre = record.get('pro_descri');
-						                                        	client.shi_estado = record.get('shi_estado');
+						                                        	client2.shi_nombre = record.get('pro_descri');
+						                                        	client2.shi_estado = record.get('shi_estado');
 						                                        	//client.cod_contrato = record.get("cod_contrato"):
 
 
@@ -506,16 +512,16 @@
 											                                        metaData.style = "padding: 0px; margin: 0px";
 											                                        return global.permisos({
 											                                            type: 'link',
-											                                            id_menu: client.id_menu,
+											                                            id_menu: client2.id_menu,
 
 																					
 
 											                                            icons:[
 
-											                                                {id_serv: 9, img: 'ico_editar.gif', qtip: 'Click para Editar Area.', js: "client.getFormMant2('U','"+clienteform+"','"+estadoform+"','"+codigoform+"','"+contraform+"')"},
+											                                                {id_serv: 2, img: 'ico_editar.gif', qtip: 'Click para Editar Area.', js: "client2.getFormMant2('U','"+clienteform+"','"+estadoform+"','"+codigoform+"','"+contraform+"')"},
 
 
-											                                                {id_serv: 9, img: 'recicle_nov.ico', qtip: 'Click para Desactivar Area.', js: "client.setEditLote2("+rowIndex+",'D')"}
+											                                                {id_serv: 2, img: 'recicle_nov.ico', qtip: 'Click para Desactivar Area.', js: "client2.setEditLote2("+rowIndex+",'D')"}
 											                                            ]
 
 										                                        });
@@ -524,13 +530,13 @@
 											                                        metaData.style = "padding: 0px; margin: 0px";
 											                                        return global.permisos({
 											                                            type: 'link',
-											                                            id_menu: client.id_menu,
+											                                            id_menu: client2.id_menu,
 
 																					
 
 											                                            icons:[
 
-											                                                {id_serv: 9, img: 'ico_editar.gif', qtip: 'Click para Editar Area.', js: "client.getFormMant2('U','"+clienteform+"','"+estadoform+"','"+codigoform+"','"+contraform+"')"}
+											                                                {id_serv: 2, img: 'ico_editar.gif', qtip: 'Click para Editar Area.', js: "client2.getFormMant2('U','"+clienteform+"','"+estadoform+"','"+codigoform+"','"+contraform+"')"}
 											                                            ]
 
 										                                        });
@@ -578,15 +584,15 @@
 					],
 					listeners:{
 						beforerender: function(obj, opts){
-	                        global.state_item_menu(client.id_menu, true);
+	                        global.state_item_menu(client2.id_menu, true);
 	                    },
 	                    afterrender: function(obj, e){
 
 	                        tab.setActiveTab(obj);
-	                        global.state_item_menu_config(obj,client.id_menu);
+	                        global.state_item_menu_config(obj,client2.id_menu);
 
-	                        var name = Ext.getCmp(client.id+'-txt-cliente').getValue();
-                        	var fecha = Ext.getCmp(client.id+'-txt-fecha-filtro').getValue();
+	                        var name = Ext.getCmp(client2.id+'-txt-cliente').getValue();
+                        	var fecha = Ext.getCmp(client2.id+'-txt-fecha-filtro').getValue();
 
                         	if(fecha == ' ' || fecha == '' ) 
                         
@@ -594,13 +600,13 @@
                         				fecha = '';
                         	} 
                       
-                        	var estado = Ext.getCmp(client.id+'-txt-estado-filter').getValue();	
+                        	var estado = Ext.getCmp(client2.id+'-txt-estado-filter').getValue();	
 
 
-					            client.getReloadGridlotizer(name,fecha,estado);
+					            client2.getReloadGridlotizer(name,fecha,estado);
 	                    },
 	                    beforeclose:function(obj,opts){
-	                    	global.state_item_menu(client.id_menu, false);
+	                    	global.state_item_menu(client2.id_menu, false);
 	                    }
 					}
 
@@ -610,57 +616,57 @@
 
 			},
 			setEditLote:function(index,op){
-				var rec = Ext.getCmp(client.id + '-gridTree').getStore().getAt(index);
-				client.shi_codigo = (rec.data.shi_codigo)
-				client.opcion=op;
+				var rec = Ext.getCmp(client2.id + '-gridTree').getStore().getAt(index);
+				client2.shi_codigo = (rec.data.shi_codigo)
+				client2.opcion=op;
 				if(op!='D'){
 
-					Ext.getCmp(client.id+'-txt-nombre').setValue(rec.data.shi_nombre);
+					Ext.getCmp(client2.id+'-txt-nombre').setValue(rec.data.shi_nombre);
 
-				  	Ext.getCmp(client.id+'-txt-estado').setValue(rec.data.shi_estado);
+				  	Ext.getCmp(client2.id+'-txt-estado').setValue(rec.data.shi_estado);
 
-				  	Ext.getCmp(client.id+'-txt-nombre').focus(true);
+				  	Ext.getCmp(client2.id+'-txt-nombre').focus(true);
 
 				}else{
-					client.set_client(2,'¿Está seguro de Desactivar?');
+					client2.set_client(2,'¿Está seguro de Desactivar?');
 				}
 			},
 			setEditLote2:function(index,op){
 				var rec = Ext.getCmp(client.id + '-gridTree').getStore().getAt(index);
-				client.shi_codigo = (rec.data.shi_codigo)
-				client.cod_contrato = (rec.data.cod_contrato)
-				client.shi_nombre = (rec.data.shi_nombre)
-				client.shi_estado = (rec.data.shi_estado)
-				client.opcion=op;
+				client2.shi_codigo = (rec.data.shi_codigo)
+				client2.cod_contrato = (rec.data.cod_contrato)
+				client2.shi_nombre = (rec.data.shi_nombre)
+				client2.shi_estado = (rec.data.shi_estado)
+				client2.opcion=op;
 				if(op!='D'){
 
-					Ext.getCmp(client.id+'-txt-nombre').setValue(rec.data.shi_nombre);
+					Ext.getCmp(client2.id+'-txt-nombre').setValue(rec.data.shi_nombre);
 
-				  	Ext.getCmp(client.id+'-txt-estado').setValue(rec.data.shi_estado);
+				  	Ext.getCmp(client2.id+'-txt-estado').setValue(rec.data.shi_estado);
 
-				  	Ext.getCmp(client.id+'-txt-nombre').focus(true);
+				  	Ext.getCmp(client2.id+'-txt-nombre').focus(true);
 
 				}else{
-					client.set_contrato(2,'¿Está seguro de Desactivar?');
+					client2.set_contrato(2,'¿Está seguro de Desactivar?');
 				}
 			},
 
 
 			set_lotizer_clear:function(){
-				Ext.getCmp(client.id+'-txt-estado-filter').setValue(' ');
-				Ext.getCmp(client.id+'-txt-fecha-filtro').setValue('Y-m-d');
-				Ext.getCmp(client.id+'-txt-cliente').setValue('');
+				Ext.getCmp(client2.id+'-txt-estado-filter').setValue(' ');
+				Ext.getCmp(client2.id+'-txt-fecha-filtro').setValue('Y-m-d');
+				Ext.getCmp(client2.id+'-txt-cliente').setValue('');
 
-			  	client.shi_codigo=0;
+			  	client2.shi_codigo=0;
 
-				client.opcion='I';
-				Ext.getCmp(client.id+'-txt-cliente').focus(true);
+				client2.opcion='I';
+				Ext.getCmp(client2.id+'-txt-cliente').focus(true);
 			},
 
 			set_lotizer_clearform:function(){
-				Ext.getCmp(client.id+'-txt-nombre').setValue('');
-			  	Ext.getCmp(client.id+'-txt-estado').setValue('1');
-				Ext.getCmp(client.id+'-txt-nombre').focus(true);
+				Ext.getCmp(client2.id+'-txt-nombre').setValue('');
+			  	Ext.getCmp(client2.id+'-txt-estado').setValue('1');
+				Ext.getCmp(client2.id+'-txt-nombre').focus(true);
 			},
 
 
@@ -668,13 +674,13 @@
 
 
 			setValidaLote:function(){
-				if(client.opcion=='I' || client.opcion=='U'){
-					var nombre = Ext.getCmp(client.id+'-txt-nombre').getValue();
+				if(client2.opcion=='I' || client2.opcion=='U'){
+					var nombre = Ext.getCmp(client2.id+'-txt-nombre').getValue();
 					if(nombre== null || nombre==''){
 			            global.Msg({msg:"Ingrese un nombre por favor.",icon:2,fn:function(){}});
 			            return false;
 			        }
-			        var estado = Ext.getCmp(client.id+'-txt-estado').getValue();
+			        var estado = Ext.getCmp(client2.id+'-txt-estado').getValue();
 			        if(estado== null || estado==''){
 			            global.Msg({msg:"Ingrese un estado por favor.",icon:2,fn:function(){}});
 			            return false; 
@@ -684,36 +690,36 @@
 			},
 
 			set_client:function(ico,msn){
-				if(!client.setValidaLote())return;
+				if(!client2.setValidaLote())return;
 				global.Msg({
                     msg: msn,
                     icon: ico,
                     buttons: 3,
                     fn: function(btn){
                     	if (btn == 'yes'){
-	                        Ext.getCmp(client.id+'-tab').el.mask('Cargando…', 'x-mask-loading');
+	                        Ext.getCmp(client2.id+'-tab').el.mask('Cargando…', 'x-mask-loading');
 	                        Ext.Ajax.request({
-								url: client.url + 'set_client/',
+								url: client2.url + 'set_client/',
 								params:{
-									vp_op: client.opcion,
-									vp_shi_codigo:client.shi_codigo,
-			                        vp_nombre:client.shi_nombre,
-			                        vp_estado:client.shi_estado
+									vp_op: client2.opcion,
+									vp_shi_codigo:client2.shi_codigo,
+			                        vp_nombre:client2.shi_nombre,
+			                        vp_estado:client2.shi_estado
 								},
 								success:function(response,options){
 									var res = Ext.decode(response.responseText);
-									Ext.getCmp(client.id+'-tab').el.unmask();
+									Ext.getCmp(client2.id+'-tab').el.unmask();
 									global.Msg({
 		                                msg: res.msn,
 		                                icon: parseInt(res.error),
 		                                buttons: 1,
 		                                fn: function(btn){
 		                                    if(parseInt(res.error)==1){
-		                                    	if (client.opcion == 'U' || client.opcion == 'I') {
+		                                    	if (client2.opcion == 'U' || client2.opcion == 'I') {
 		                                    	//Ext.getCmp(client.id+'-win-form').close();
 		                                    	}
-		                                    	client.getReloadGridlotizer('');
-		                                    	client.set_lotizer_clear();
+		                                    	client2.getReloadGridlotizer('');
+		                                    	client2.set_lotizer_clear();
 		                                    }
 		                                }
 		                            });
@@ -725,37 +731,37 @@
 			},
 
 			set_contrato:function(ico,msn){
-				if(!client.setValidaLote())return;
+				if(!client2.setValidaLote())return;
 				global.Msg({
                     msg: msn,
                     icon: ico,
                     buttons: 3,
                     fn: function(btn){
                     	if (btn == 'yes'){
-	                        Ext.getCmp(client.id+'-tab').el.mask('Cargando…', 'x-mask-loading');
+	                        Ext.getCmp(client2.id+'-tab').el.mask('Cargando…', 'x-mask-loading');
 	                        Ext.Ajax.request({
-								url: client.url + 'set_contrato/',
+								url: client2.url + 'set_contrato/',
 								params:{
-									vp_op: client.opcion,
-									vp_shi_codigo:client.shi_codigo,
-			                        vp_nombre:client.shi_nombre,
-			                        vp_estado:client.shi_estado,
-			                        vp_cod_contrato:client.cod_contrato
+									vp_op: client2.opcion,
+									vp_shi_codigo:client2.shi_codigo,
+			                        vp_nombre:client2.shi_nombre,
+			                        vp_estado:client2.shi_estado,
+			                        vp_cod_contrato:client2.cod_contrato
 								},
 								success:function(response,options){
 									var res = Ext.decode(response.responseText);
-									Ext.getCmp(client.id+'-tab').el.unmask();
+									Ext.getCmp(client2.id+'-tab').el.unmask();
 									global.Msg({
 		                                msg: res.msn,
 		                                icon: parseInt(res.error),
 		                                buttons: 1,
 		                                fn: function(btn){
 		                                    if(parseInt(res.error)==1){
-		                                    	if (client.opcion == 'U' || client.opcion == 'I') {
+		                                    	if (client2.opcion == 'U' || client2.opcion == 'I') {
 		                                    	//Ext.getCmp(client.id+'-win-form').close();
 		                                    	}
-		                                    	client.getReloadGridlotizer('');
-		                                    	client.set_lotizer_clear();
+		                                    	client2.getReloadGridlotizer('');
+		                                    	client2.set_lotizer_clear();
 		                                    }
 		                                }
 		                            });
@@ -768,8 +774,8 @@
 
 
 			getContratos:function(shi_codigo){
-				Ext.getCmp(client.id+'-cbx-contrato').getStore().removeAll();
-				Ext.getCmp(client.id+'-cbx-contrato').getStore().load(
+				Ext.getCmp(client2.id+'-cbx-contrato').getStore().removeAll();
+				Ext.getCmp(client2.id+'-cbx-contrato').getStore().load(
 	                {params: {vp_shi_codigo:shi_codigo},
 	                callback:function(){
 
@@ -778,7 +784,7 @@
 			},
 			getReloadGridlotizer:function(name,fecha,estado){
 
-				Ext.getCmp(client.id + '-gridTree').getStore().load(
+				Ext.getCmp(client2.id + '-gridTree').getStore().load(
 	                {params: {vp_name:name,vp_date:fecha,vp_estado:estado},
 	                callback:function(){
 
@@ -786,33 +792,33 @@
 	            });
 			},
 			getReloadGridlotizer2:function(id_lote){
-				Ext.getCmp(client.id+'-form').el.mask('Cargando…', 'x-mask-loading');
+				Ext.getCmp(client2.id+'-form').el.mask('Cargando…', 'x-mask-loading');
 
-				Ext.getCmp(client.id + '-grid-client').getStore().load(
+				Ext.getCmp(client2.id + '-grid-client').getStore().load(
 	                {params: {vp_id_lote:id_lote},
 	                callback:function(){
-	                	Ext.getCmp(client.id+'-form').el.unmask();
+	                	Ext.getCmp(client2.id+'-form').el.unmask();
 	                }
 	            });
 			},
 			setNuevo:function(){
 
-				Ext.getCmp(client.id+'-txt-nombre').setValue('');
-				Ext.getCmp(client.id+'-txt-nombre').setReadOnly(false);
-				Ext.getCmp(client.id+'-txt-tipdoc').setValue('');
-				Ext.getCmp(client.id+'-txt-tipdoc').setReadOnly(false);
-				Ext.getCmp(client.id+'-txt-fecha').setValue('');
-				Ext.getCmp(client.id+'-txt-fecha').setReadOnly(false);
-				Ext.getCmp(client.id+'-txt-estado').setValue('');
-				Ext.getCmp(client.id+'-txt-estado').setReadOnly(false);
-				Ext.getCmp(client.id+'-txt-tot_folder').setValue('');
-				Ext.getCmp(client.id+'-txt-tot_folder').setReadOnly(false);
-				Ext.getCmp(client.id+'-txt-nombre').focus();
+				Ext.getCmp(client2.id+'-txt-nombre').setValue('');
+				Ext.getCmp(client2.id+'-txt-nombre').setReadOnly(false);
+				Ext.getCmp(client2.id+'-txt-tipdoc').setValue('');
+				Ext.getCmp(client2.id+'-txt-tipdoc').setReadOnly(false);
+				Ext.getCmp(client2.id+'-txt-fecha').setValue('');
+				Ext.getCmp(client2.id+'-txt-fecha').setReadOnly(false);
+				Ext.getCmp(client2.id+'-txt-estado').setValue('');
+				Ext.getCmp(client2.id+'-txt-estado').setReadOnly(false);
+				Ext.getCmp(client2.id+'-txt-tot_folder').setValue('');
+				Ext.getCmp(client2.id+'-txt-tot_folder').setReadOnly(false);
+				Ext.getCmp(client2.id+'-txt-nombre').focus();
 			},
 
 			getFormMant:function(op,cliente,estado,codigo){
-				client.shi_codigo = codigo;
-				client.opcion = op;
+				client2.shi_codigo = codigo;
+				client2.opcion = op;
 				if (op == 'U') {
 					var titulo = 'Edición Cliente';
 					var icono = "/images/icon/edit.png";
@@ -827,7 +833,8 @@
 
 
 				var myData = [
-				    ['1','Activo']/*,
+				    ['1','Activo']
+				    /*,
 				    ['0','Inactivo']*/
 				];
 				var store_estado = Ext.create('Ext.data.ArrayStore', {
@@ -838,7 +845,7 @@
 			    });
 
 				Ext.create('Ext.window.Window',{
-	                id:client.id+'-win-form',
+	                id:client2.id+'-win-form',
 	                plain: true,
 	                title:titulo,
 	                icon: icono,
@@ -885,7 +892,7 @@
 			                                                    {
 			                                                        xtype: 'textfield',
 			                                                        fieldLabel: 'Cliente',
-			                                                        id:client.id+'-txt-nombre',
+			                                                        id:client2.id+'-txt-nombre',
 			                                                        labelWidth:60,
 			                                                        labelAlign:'right',
 			                                                        width:'100%',
@@ -901,7 +908,7 @@
 				                                                    {
 				                                                        xtype:'combo',
 				                                                        fieldLabel: 'Estado',
-				                                                        id:client.id+'-txt-estado',
+				                                                        id:client2.id+'-txt-estado',
 				                                                        store: store_estado,
 				                                                        queryMode: 'local',
 				                                                        triggerAction: 'all',
@@ -916,7 +923,7 @@
 				                                                        listeners:{
 				                                                            afterrender:function(obj, e){
 
-				                                                                Ext.getCmp(client.id+'-txt-estado').setValue('1');
+				                                                                Ext.getCmp(client2.id+'-txt-estado').setValue('1');
 				                                                            },
 				                                                            select:function(obj, records, eOpts){
 				                                                    
@@ -937,7 +944,7 @@
 									                                
 									                            },
 									                            click: function(obj, e){
-																	client.set_lotizer_clearform();
+																	client2.set_lotizer_clearform();
 									                            }
 									                        }
 									                    }
@@ -951,7 +958,7 @@
 	                bbar:[       
 		                                                {
 
-															id: client.id + '-grabar',
+															id: client2.id + '-grabar',
 															margin:'10px 2px 0px 0px',  bodyStyle: 'background: transparent',
 									                        xtype:'button',
 									                        width:80,
@@ -962,12 +969,12 @@
 
 									                            },
 									                            click: function(obj, e){
-									                            	Ext.getCmp(client.id+'-win-form').el.mask('Cargando…', 'x-mask-loading');
-									                            	client.shi_estado = Ext.getCmp(client.id+'-txt-estado').getValue();
-									                           		client.shi_nombre = Ext.getCmp(client.id+'-txt-nombre').getValue();
+									                            	Ext.getCmp(client2.id+'-win-form').el.mask('Cargando…', 'x-mask-loading');
+									                            	client2.shi_estado = Ext.getCmp(client2.id+'-txt-estado').getValue();
+									                           		client2.shi_nombre = Ext.getCmp(client2.id+'-txt-nombre').getValue();
 
-																	client.set_client(3,'¿Está seguro de guardar?');
-																	Ext.getCmp(client.id+'-win-form').close();
+																	client2.set_client(3,'¿Está seguro de guardar?');
+																	Ext.getCmp(client2.id+'-win-form').close();
 
 									                            }
 									                        }
@@ -982,7 +989,7 @@
 
 	                            },
 	                            click: function(obj, e){
-	                                Ext.getCmp(client.id+'-win-form').close();
+	                                Ext.getCmp(client2.id+'-win-form').close();
 	                            }
 	                        }
 	                    },
@@ -1004,9 +1011,9 @@
 			},
 
 			getFormMant2:function(op,cliente,estado,codigo,contrato){
-				client.shi_codigo = codigo;
-				client.cod_contrato = contrato;
-				client.opcion = op;
+				client2.shi_codigo = codigo;
+				client2.cod_contrato = contrato;
+				client2.opcion = op;
 				if (op == 'U') {
 					var titulo = 'Edición Area';
 					var icono = "/images/icon/edit.png";
@@ -1034,7 +1041,7 @@
 		                autoLoad:true,
 		                proxy:{
 		                    type: 'ajax',
-		                    url: client.url+'get_list_shipper/',
+		                    url: client2.url+'get_list_shipper/',
 		                    reader:{
 		                        type: 'json',
 		                        rootProperty: 'data'
@@ -1046,6 +1053,32 @@
 		                    }
 		                }
 		            });
+
+					var store_usr_shipper = Ext.create('Ext.data.Store',{
+		                fields: [
+		                    {name: 'shi_codigo', type: 'string'},
+		                    {name: 'shi_nombre', type: 'string'},
+		                    {name: 'shi_logo', type: 'string'},
+		                    {name: 'fec_ingreso', type: 'string'},                    
+		                    {name: 'shi_estado', type: 'string'},
+		                    {name: 'id_user', type: 'string'},
+		                    {name: 'fecha_actual', type: 'string'}
+		                ],
+		                autoLoad:true,
+		                proxy:{
+		                    type: 'ajax',
+		                    url: client2.url+'get_usr_shipper/',
+		                    reader:{
+		                        type: 'json',
+		                        rootProperty: 'data'
+		                    }
+		                },
+		                listeners:{
+		                    load: function(obj, records, successful, opts){
+		                        
+		                    }
+		                }
+		            });		            
 
 
 
@@ -1063,7 +1096,7 @@
 				if (op == 'U') {
 
 				Ext.create('Ext.window.Window',{
-	                id:client.id+'-win-form',
+	                id:client2.id+'-win-form',
 	                plain: true,
 	                title:titulo,
 	                icon: icono,
@@ -1110,7 +1143,7 @@
 			                                                items:[
 			                                                    {
 			                                                        xtype: 'textfield',
-			                                                        fieldLabel: 'Area',
+			                                                        fieldLabel: 'Areas',
 			                                                        id:client.id+'-txt-nombre',
 			                                                        labelWidth:60,
 			                                                        labelAlign:'right',
@@ -1127,7 +1160,7 @@
 				                                                    {
 				                                                        xtype:'combo',
 				                                                        fieldLabel: 'Estado',
-				                                                        id:client.id+'-txt-estado',
+				                                                        id:client2.id+'-txt-estado',
 				                                                        store: store_estado,
 				                                                        queryMode: 'local',
 				                                                        triggerAction: 'all',
@@ -1163,7 +1196,7 @@
 									                                
 									                            },
 									                            click: function(obj, e){
-																	client.set_lotizer_clearform();
+																	client2.set_lotizer_clearform();
 									                            }
 									                        }
 									                    }
@@ -1190,12 +1223,12 @@
 									                            click: function(obj, e){
 									                            	//client.shi_codigo = Ext.getCmp(client.id+'-cbx-cliente').getValue();
 
-									                            	Ext.getCmp(client.id+'-win-form').el.mask('Cargando…', 'x-mask-loading');
-									                            	client.shi_estado = Ext.getCmp(client.id+'-txt-estado').getValue();
-									                           		client.shi_nombre = Ext.getCmp(client.id+'-txt-nombre').getValue();
+									                            	Ext.getCmp(client2.id+'-win-form').el.mask('Cargando…', 'x-mask-loading');
+									                            	client2.shi_estado = Ext.getCmp(client2.id+'-txt-estado').getValue();
+									                           		client2.shi_nombre = Ext.getCmp(client2.id+'-txt-nombre').getValue();
 
-																	client.set_contrato(3,'¿Está seguro de guardar?');
-																	Ext.getCmp(client.id+'-win-form').close();
+																	client2.set_contrato(3,'¿Está seguro de guardar?');
+																	Ext.getCmp(client2.id+'-win-form').close();
 
 									                            }
 									                        }
@@ -1210,7 +1243,7 @@
 
 	                            },
 	                            click: function(obj, e){
-	                                Ext.getCmp(client.id+'-win-form').close();
+	                                Ext.getCmp(client2.id+'-win-form').close();
 	                            }
 	                        }
 	                    },
@@ -1231,7 +1264,7 @@
 				else
 				{
 				Ext.create('Ext.window.Window',{
-	                id:client.id+'-win-form',
+	                id:client2.id+'-win-form',
 	                plain: true,
 	                title:titulo,
 	                icon: icono,
@@ -1281,8 +1314,8 @@
 			                                                	
 			                                                    xtype:'combo',
 			                                                    fieldLabel: 'Cliente',
-			                                                    id:client.id+'-cbx-cliente',
-			                                                    store: store_shipper,
+			                                                    id:client2.id+'-cbx-cliente',
+			                                                    store: store_usr_shipper,
 			                                                    queryMode: 'local',
 			                                                    triggerAction: 'all',
 			                                                    valueField: 'shi_codigo',
@@ -1323,8 +1356,8 @@
 			                                                items:[
 			                                                    {
 			                                                        xtype: 'textfield',
-			                                                        fieldLabel: 'Area',
-			                                                        id:client.id+'-txt-nombre',
+			                                                        fieldLabel: 'Areas',
+			                                                        id:client2.id+'-txt-nombre',
 			                                                        labelWidth:60,
 			                                                        labelAlign:'right',
 			                                                        width:'100%',
@@ -1340,7 +1373,7 @@
 				                                                    {
 				                                                        xtype:'combo',
 				                                                        fieldLabel: 'Estado',
-				                                                        id:client.id+'-txt-estado',
+				                                                        id:client2.id+'-txt-estado',
 				                                                        store: store_estado,
 				                                                        queryMode: 'local',
 				                                                        triggerAction: 'all',
@@ -1355,7 +1388,7 @@
 				                                                        listeners:{
 				                                                            afterrender:function(obj, e){
 
-				                                                                Ext.getCmp(client.id+'-txt-estado').setValue('A');
+				                                                                Ext.getCmp(client2.id+'-txt-estado').setValue('A');
 				                                                            },
 				                                                            select:function(obj, records, eOpts){
 				                                                    
@@ -1376,7 +1409,7 @@
 									                                
 									                            },
 									                            click: function(obj, e){
-																	client.set_lotizer_clearform();
+																	client2.set_lotizer_clearform();
 									                            }
 									                        }
 									                    }
@@ -1390,7 +1423,7 @@
 	                bbar:[       
 		                                                {
 
-															id: client.id + '-grabar',
+															id: client2.id + '-grabar',
 															margin:'10px 2px 0px 0px',  bodyStyle: 'background: transparent',
 									                        xtype:'button',
 									                        width:80,
@@ -1403,13 +1436,13 @@
 									                            click: function(obj, e){
 
 
-									                            	Ext.getCmp(client.id+'-win-form').el.mask('Cargando…', 'x-mask-loading');
-									                            	client.shi_codigo = Ext.getCmp(client.id+'-cbx-cliente').getValue();
-									                            	client.shi_estado = Ext.getCmp(client.id+'-txt-estado').getValue();
-									                           		client.shi_nombre = Ext.getCmp(client.id+'-txt-nombre').getValue();
+									                            	Ext.getCmp(client2.id+'-win-form').el.mask('Cargando…', 'x-mask-loading');
+									                            	client2.shi_codigo = Ext.getCmp(client2.id+'-cbx-cliente').getValue();
+									                            	client2.shi_estado = Ext.getCmp(client2.id+'-txt-estado').getValue();
+									                           		client2.shi_nombre = Ext.getCmp(client2.id+'-txt-nombre').getValue();
 
-																	client.set_contrato(3,'¿Está seguro de guardar?');
-																	Ext.getCmp(client.id+'-win-form').close();	
+																	client2.set_contrato(3,'¿Está seguro de guardar?');
+																	Ext.getCmp(client2.id+'-win-form').close();	
 
 
 									                            }
@@ -1425,7 +1458,7 @@
 
 	                            },
 	                            click: function(obj, e){
-	                                Ext.getCmp(client.id+'-win-form').close();
+	                                Ext.getCmp(client2.id+'-win-form').close();
 	                            }
 	                        }
 	                    },
@@ -1451,10 +1484,10 @@
 
 
 		}
-		Ext.onReady(client.init,client);
-		Ext.getCmp(client.id+'-txt-cliente').focus(true);
+		Ext.onReady(client2.init,client2);
+		Ext.getCmp(client2.id+'-txt-cliente').focus(true);
 
 	}else{
-		tab.setActiveTab(client.id+'-tab');
+		tab.setActiveTab(client2.id+'-tab');
 	}
-</script>
+</script>2

@@ -7,7 +7,7 @@
  * @version 2.0
  */
 
-class clientModels extends Adodb {
+class client2Models extends Adodb {
 
     private $dsn;
 
@@ -94,6 +94,17 @@ public function get_list_clientcontratos($p){
         $array = parent::ExecuteSPArray();
         return $array;
     }
+
+
+    public function get_usr_shipper($p){
+        parent::ReiniciarSQL();
+        parent::ConnectionOpen($this->dsn, 'get_usr_shipper');
+        parent::SetParameterSP(USR_ID, 'int');
+        // echo '=>' . parent::getSql().'<br>'; exit();
+        $array = parent::ExecuteSPArray();
+        return $array;
+    }
+        
     public function get_list_contratos($p){
         parent::ReiniciarSQL();
         parent::ConnectionOpen($this->dsn, 'get_list_contratos');
