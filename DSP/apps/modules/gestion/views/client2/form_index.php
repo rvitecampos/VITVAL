@@ -469,7 +469,7 @@
 
 						                                        	client2.shi_nombre = record.get('shi_nombre');
 						                                        	client2.shi_estado = record.get('shi_estado');
-						                                        
+						                                        /*
 								                                        if(record.get('shi_estado') == '1'){
 									                                        metaData.style = "padding: 0px; margin: 0px";
 									                                        return global.permisos({
@@ -496,7 +496,7 @@
 									                                                {id_serv: 2, img: 'ico_editar.gif', qtip: 'Click para Editar Cliente.', js: "client2.getFormMant('U','"+clienteform+"','"+estadoform+"','"+codigoform+"')"}
 									                                            ]
 									                                        });
-								                                        }
+								                                        }*/
 							                                    }else{
 							                                  		var clienteform = record.get('pro_descri');
 							                                  		var estadoform = record.get('shi_estado');
@@ -1144,7 +1144,7 @@
 			                                                    {
 			                                                        xtype: 'textfield',
 			                                                        fieldLabel: 'Areas',
-			                                                        id:client.id+'-txt-nombre',
+			                                                        id:client2.id+'-txt-nombre',
 			                                                        labelWidth:60,
 			                                                        labelAlign:'right',
 			                                                        width:'100%',
@@ -1175,7 +1175,7 @@
 				                                                        listeners:{
 				                                                            afterrender:function(obj, e){
 
-				                                                                Ext.getCmp(client.id+'-txt-estado').setValue('A');
+				                                                                Ext.getCmp(client2.id+'-txt-estado').setValue('A');
 				                                                            },
 				                                                            select:function(obj, records, eOpts){
 				                                                    
@@ -1210,7 +1210,7 @@
 	                bbar:[       
 		                                                {
 
-															id: client.id + '-grabar',
+															id: client2.id + '-grabar',
 															margin:'10px 2px 0px 0px',  bodyStyle: 'background: transparent',
 									                        xtype:'button',
 									                        width:80,
@@ -1226,6 +1226,7 @@
 									                            	Ext.getCmp(client2.id+'-win-form').el.mask('Cargando…', 'x-mask-loading');
 									                            	client2.shi_estado = Ext.getCmp(client2.id+'-txt-estado').getValue();
 									                           		client2.shi_nombre = Ext.getCmp(client2.id+'-txt-nombre').getValue();
+									                           		client2.shi_codigo = Ext.getCmp(client2.id+'-cbx-cliente').getValue();
 
 																	client2.set_contrato(3,'¿Está seguro de guardar?');
 																	Ext.getCmp(client2.id+'-win-form').close();
