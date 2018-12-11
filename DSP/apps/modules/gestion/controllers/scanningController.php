@@ -209,7 +209,7 @@ class scanningController extends AppController {
     public function get_scanner($p){
         $cliente=$p['cli'];
         if ($cliente > 0)  {
-        $p['path'] = PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/';
+        $p['path'] = PATH.'public_html/contenedor/'.USR_ID.'/';
         if (!file_exists($p['path'])) {
             mkdir($p['path'], 0777, true);
         }
@@ -242,8 +242,8 @@ class scanningController extends AppController {
         }*/
 
         try {
-            if (is_dir(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/')){
-                  if ($dh = opendir(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/')){
+            if (is_dir(PATH.'public_html/contenedor/'.USR_ID.'/')){
+                  if ($dh = opendir(PATH.'public_html/contenedor/'.USR_ID.'/')){
                     /*if (!file_exists(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['vp_id_lote'])) {
                         mkdir(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['vp_id_lote'], 0777, true);
                     }*/
@@ -257,7 +257,7 @@ class scanningController extends AppController {
                                         $value_['id_pag'] = 0;
                                         $value_['id_det'] = 0;
                                         $value_['id_lote'] = 0;
-                                        $value_['path'] = '/contenedor/'.$cliente.'/'.USR_ID.'/';
+                                        $value_['path'] = '/contenedor/'.USR_ID.'/';
                                         $value_['file'] = utf8_encode(trim($file));
                                         $value_['imgorigen'] = utf8_encode(trim($file));
                                         $value_['lado'] = 'A';
@@ -291,7 +291,7 @@ class scanningController extends AppController {
     }
 
     public function getValidFormat($nameimg,$cliente){
-        $path_parts = pathinfo(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg);
+        $path_parts = pathinfo(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg);
         $ext=$path_parts['extension'];
         $bool=false;
         switch($ext){
@@ -318,32 +318,32 @@ class scanningController extends AppController {
         return $bool;
     }
     public function setResizeImage($nameimg,$cliente){
-        $path_parts = pathinfo(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg);
+        $path_parts = pathinfo(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg);
         $ext=$path_parts['extension'];
         $w=40;
         $y=60;
         switch($ext){
             #case 'bmp': $sourceImage = $img = $this->resize_imagejpg(PATH.'public_html/tmp/'.$nameimg, 50, 70); break;
             case 'gif': 
-                $img = $this->resize_imagegif(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagegif(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;
             case 'jpg': 
-                $img = $this->resize_imagejpg(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagejpg(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;
             case 'png': 
-                $img = $this->resize_imagepng(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagepng(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;
             case 'tiff': 
-                $img = $this->resize_imagetiff(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagetiff(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;
             case 'pdf': 
-                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;     
             case 'docx': 
-                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagepdf(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break; 
             default : 
-                $img = $this->resize_imagedocx(PATH.'public_html/contenedor/'.$cliente.'/'.USR_ID.'/'.$nameimg, $w, $y); 
+                $img = $this->resize_imagedocx(PATH.'public_html/contenedor/'.USR_ID.'/'.$nameimg, $w, $y); 
             break;
         }
         imagejpeg($img, PATH.'public_html/tumblr/'.$nameimg);
@@ -409,13 +409,13 @@ class scanningController extends AppController {
             }
             foreach($records as $record){
                 $file=$record->file;
-                if (file_exists(PATH.'public_html/contenedor/'.$p['vp_shi_codigo'].'/'.USR_ID.'/'.$file)){
-                    $path_parts = pathinfo(PATH.'public_html/contenedor/'.$p['vp_shi_codigo'].'/'.USR_ID.'/'.$file);
+                if (file_exists(PATH.'public_html/contenedor/'.USR_ID.'/'.$file)){
+                    $path_parts = pathinfo(PATH.'public_html/contenedor/'.USR_ID.'/'.$file);
                     $ext=$path_parts['extension'];
                     $p['vp_img']='-page.'.$ext;
                     $p['vp_imgorigen']=$file;
                     $p['vp_path']='/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'].'/';
-                    list($width, $height) = getimagesize(PATH.'public_html/contenedor/'.$p['vp_shi_codigo'].'/'.USR_ID.'/'.$file);
+                    list($width, $height) = getimagesize(PATH.'public_html/contenedor/'.USR_ID.'/'.$file);
                     $p['vp_w']=$width;
                     $p['vp_h']=$height;
                     $p['vp_lado']='A';
@@ -424,7 +424,7 @@ class scanningController extends AppController {
                     $data = array('success' => true,'error' => $rs['status'],'msn' => utf8_encode(trim($rs['response'])));
 
                     if($rs['status']=='OK'){
-                        rename(PATH.'public_html/contenedor/'.$p['vp_shi_codigo'].'/'.USR_ID.'/'.$file, PATH.'public_html'.$p['vp_path'].$rs['id_pag'].$p['vp_img']);
+                        rename(PATH.'public_html/contenedor/'.USR_ID.'/'.$file, PATH.'public_html'.$p['vp_path'].$rs['id_pag'].$p['vp_img']);
                         try{
                             rename(PATH.'public_html/tumblr/'.$file, PATH.'public_html/tumblr/'.$rs['id_pag'].$p['vp_img']);
                         } catch (Exception $e) {
@@ -447,8 +447,8 @@ class scanningController extends AppController {
         try {
             if (is_dir(PATH.'public_html/contenedor/'.USR_ID.'/')){
                   if ($dh = opendir(PATH.'public_html/contenedor/'.USR_ID.'/')){
-                    if (!file_exists(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['vp_id_lote'])) {
-                        mkdir(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['vp_id_lote'], 0777, true);
+                    if (!file_exists(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'])) {
+                        mkdir(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'], 0777, true);
                     }
                     while (false !== ($file = readdir($dh))) {
                         //echo $file.'xx';
@@ -462,7 +462,7 @@ class scanningController extends AppController {
                                         $ext=$path_parts['extension'];
                                         $p['vp_img']='-page.'.$ext;
                                         $p['vp_imgorigen']=$file;
-                                        $p['vp_path']='/scanning/'.$p['vp_shi_codigo'].'/'.$p['vp_id_lote'].'/';
+                                        $p['vp_path']='/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'].'/';
                                         $p['vp_lado']='A';
                                         list($width, $height) = getimagesize(PATH.'public_html/contenedor/'.USR_ID.'/'.$file);
                                         $p['vp_w']=$width;
@@ -681,24 +681,7 @@ class scanningController extends AppController {
         unlink($path);*/
     }
 
-    public function upload($p){
-        Ext.msg('hola');
-        $fileName = $_FILES['filedata']['name']; 
-        $tmpName = $_FILES['filedata']['tmp_name']; 
-        $fileSize = $_FILES['filedata']['size']; 
-        $fileType = $_FILES['filedata']['type']; 
-        $fp = fopen($tmpName, 'r'); 
-        $content = fread($fp, filesize($tmpName)); 
-        $content = addslashes($content); 
-        fclose($fp); 
-        if(!get_magic_quotes_gpc()){ 
-            $fileName = addslashes($fileName); 
-        } 
-        $query = "INSERT INTO yourdatabasetable (`name`, `size`, `type`, `file`) VALUES ('".$fileName."','".$fileSize."', '".$fileType."', '".$content."')"; 
-        mysql_query($query); 
-
-    }
-
+ 
 
     public function getScannear($p){
         set_time_limit(0);

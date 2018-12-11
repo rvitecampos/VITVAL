@@ -1007,25 +1007,35 @@
 									                },
 									                items:[
 									                {
-									                    xtype: 'fileuploadfield',
-									                    id: 'filedata',
-									                    emptyText: 'Select a document to upload...',
-									                    fieldLabel: 'File',
-									                    width: 400,
-									                    buttonText: 'Browse'
+									                    xtype: 'filefield',
+									                    id: 'form-file',
+									                    emptyText: 'Seleciona un documento a Subir...',
+									                    fieldLabel: 'Subir Documento',
+									                    name: 'documentoFile',
+									                    buttonText: '',
+									                    width: 300,
+									                    buttonConfig: {
+									                    	iconCls : 'upload-icon'
+									                    	}
 									                }],
 									                buttons: [{
 									                    text: 'Upload',									                    
 									                    handler: function(){
+
 									                    	var form = Ext.getCmp(scanning.id + '-form').getForm();
 									                        if (form.isValid()){
-									                            form_action=1;
+									                            //form_action=1;
 									                            form.submit({
-									                                url: scanning.url+'upload/',
-									                                //'handleupload.php',
+									                              	url: '/php/upload.php',
+									                              	method: 'POST',
 									                                waitMsg: 'Uploading file...',
+
 									                                success: function(form,action){
-									                                    msg('Success', 'Processed file on the server');
+																		scanning.getReloadPage();
+														                scanning.getScanningFile();
+														                scanning.getReloadGridscanning();				
+									                                	msg('Success', 'Processed file on the server');
+
 									                                }
 									                            });
 									                        }
@@ -2144,7 +2154,28 @@
 		        /*var panel = Ext.getCmp(gestor_errores.id+'-panel_img');
 		        panel.removeAll();        
 		        panel.doLayout();*/
-		    }
+		    },   
+		    upload:function($p){
+			        Ext.msg('hola');
+			        $fileName = $_FILES['filedata']['name']; 
+			        $tmpName = $_FILES['filedata']['tmp_name']; 
+			        $fileSize = $_FILES['filedata']['size']; 
+			        $fileType = $_FILES['filedata']['type']; 
+			        $fp = fopen($tmpName, 'r'); 
+			        $content = fread($fp, filesize($tmpName)); 
+			        $content = addslashes($content); 
+			        fclose($fp); 
+			        if(!get_magic_quotes_gpc()){ 
+			            $fileName = addslashes($fileName); 
+			        } 
+			       /* $query = "INSERT INTO yourdatabasetable (`name`, `size`, `type`, `file`) VALUES ('".$fileName."','".$fileSize."', '".$fileType."', '".$content."')"; 
+			        mysql_query($query);*/ 
+
+    		}		
+
+
+
+
 		}
 		Ext.onReady(scanning.init,scanning);
 	}else{
