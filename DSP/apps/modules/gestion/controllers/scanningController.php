@@ -208,7 +208,7 @@ class scanningController extends AppController {
     }
     public function get_scanner($p){
         $cliente=$p['cli'];
-        if ($cliente > 0)  {
+        if ($cliente >= 0)  {
         $p['path'] = PATH.'public_html/contenedor/'.USR_ID.'/';
         if (!file_exists($p['path'])) {
             mkdir($p['path'], 0777, true);

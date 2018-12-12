@@ -11,28 +11,61 @@ define(USR_ID, $_SESSION['id_user']);
 
 $dir_subida =PATH."contenedor\\".USR_ID."\\";
 
-//$idr_upload = pathinfo(upload.php);
+
 echo "<br>".$dir_subida;
 
+$archivo = (isset($_FILES['documentoFile'])) ? $_FILES['documentoFile'] : null;
+
+if ($archivo) {
+//if (isset($_FILES["documentoFile"]) && $_FILES["documentoFile"]["name"]) {
+
+      	$extension = pathinfo($archivo['name'], PATHINFO_EXTENSION);
+     	$extension = strtolower($extension);
+      	$extension_correcta = ($extension == 'jpg' or $extension == 'jpeg' or $extension == 'gif' or $extension == 'png' or $extension == 'pdf' or $extension == 'doc' or $extension == 'docx');
+
+      	if ($extension_correcta) {
+
+                if (!file_exists(PATH."contenedor\\".USR_ID)) {
+                       mkdir(PATH."contenedor\\".USR_ID, 0777, true);
+                }
+
+				$origen=$_FILES["documentoFile"]["tmp_name"];
+				$destino=$dir_subida.$_FILES["documentoFile"]["name"];
 
 
-if (isset($_FILES["documentoFile"]) && $_FILES["documentoFile"]["name"]) {
+                if (!file_exists($destino)) {
 
-		$origen=$_FILES["documentoFile"]["tmp_name"];
-		$destino=$dir_subida.$_FILES["documentoFile"]["name"];
-		echo "<br>".$origen;
-		echo "<br>".$destino;
-		# movemos el archivo
-			if(move_uploaded_file($origen, $destino))
-			{
-				//alert("Debe Seleccionar un Estudiante"); 
-			}else{
+					# movemos el archivo
+					if(move_uploaded_file($origen, $destino)){
+							echo "<br>".$origen;
+							echo "<br>".$destino;					   
+/*					       $data = array(
+					            'success' => true,
+					            'msg'=>' '
+
+					        );
+					        header('Content-Type: application/json');
+					        echo json_encode($data);
+*/
+					}else{
+						echo '<script language="javascript">alert("No se pudo subir Archivo");</script>'; 
+					}
+
+				}
+				else{
+					echo '<script language="javascript">alert("Archivo ya existe");</script>'; 
+				}
+
+		}else {
+			echo '<script language="javascript">alert("Extensión de archivo no permitido");</script>'; 
 				
-			}
+		}
+					
+
 
 
 } else {
-				//alert("No hay"); 
+	
 }
 
 function getPath() {

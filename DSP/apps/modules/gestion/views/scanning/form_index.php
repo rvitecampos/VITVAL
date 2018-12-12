@@ -11,6 +11,7 @@
 			work:false,
 			id_pag:0,
 			shi_codigo:0,
+			lote_nombre:'',
 			id_det:0,
 			id_lote:0,
 			vp_cli:0,
@@ -574,7 +575,7 @@
 							                                        metaData.style = "padding: 0px; margin: 0px";
 							                                        var shi_codigo=record.get('shi_codigo');
 							                                        var fac_cliente=record.get('fac_cliente');
-							                                        var id_lote=record.get('id_lote');
+							                                        var id_lote=record.get('id_lote');							                                        
 							                                        return global.permisos({
 							                                            type: 'link',
 							                                            id_menu: scanning.id_menu,
@@ -612,6 +613,7 @@
 							                                
 							                            },
 														beforeselect:function(obj, record, index, eOpts ){
+															scanning.lote_nombre=records.get('lote_nombre');
 															scanning.shi_codigo=record.get('shi_codigo');
 															scanning.id_det=record.get('id_det');
 															scanning.id_lote=record.get('id_lote');
@@ -869,6 +871,7 @@
 							                        //disabled:true,
 							                        scale: 'large',
 							                        margin:'5px 5px 5px 5px',
+							                        hidden:true,
 							                        //iconAlign: 'top',
 							                        //disabled:true,
 							                        flex:1,
@@ -896,6 +899,7 @@
 								                    //glyph: 72,
 								                    scale: 'large',
 								                    margin:'5px 5px 5px 5px',
+								                    hidden:true,
 								                    //height:50
 								                    text: 'Eliminar Escaneado',
 								                    style : {'font-weight' : 'bold'},
@@ -1030,16 +1034,38 @@
 									                              	method: 'POST',
 									                                waitMsg: 'Uploading file...',
 
-									                                success: function(form,action){
-																		scanning.getReloadPage();
-														                scanning.getScanningFile();
-														                scanning.getReloadGridscanning();				
-									                                	msg('Success', 'Processed file on the server');
+																            success: function ( form, action ){
+																                Ext.Msg.alert('Ok',action.result.msg);
+																            },
+																            failure: function ( form, action ) {
+																	            //Ext.Msg.alert('Fallo',action.result.msg);
+																	            scanning.getScanningFile();	
+																            }
 
-									                                }
+									                               		                                
+
 									                            });
-									                        }
-									                    }
+																							                            
+									                          //  scanning.getScanningFile();
+									                        };
+
+									                       /* scanning.getScanningFile();
+									                        scanning.getReloadPage();
+									                        scanning.getReloadGridscanning();*/
+									                    },
+										                    listeners:{
+										                    	beforeselect:function(obj, record, index, eOpts ){
+										                    		return scanning.getScanningFile();		
+
+										                    	/*	scanning.getReloadPage();
+									                            	scanning.getScanningFile();
+									                            	scanning.getReloadGridscanning();	*/
+									                            }
+										                    }
+
+
+
+
 									                }]
 												},
 												{
@@ -1097,7 +1123,7 @@
 									                                            type: 'link',
 									                                            id_menu: scanning.id_menu,
 									                                            icons:[
-									                                                {id_serv: 3, img: 'recicle_nov.ico', qtip: 'Click para Desactivar Lote.', js: "scanning.setRemoveEscaner(false,'"+record.get('file')+"')"}
+									                                                {id_serv: 3, img: 'recicle_nov.ico', qtip: 'Click para Elimimar.', js: "scanning.setRemoveEscaner(false,'"+record.get('file')+"')"}
 
 									                                            ]
 									                                        });
@@ -1324,6 +1350,7 @@
 				                                                    	Ext.getCmp(scanning.id+'-form').el.mask('Registrando Páginas…', 'x-mask-loading'); 
 				                                                    	var destino=Ext.getCmp(scanning.id+'-txt-origen').getValue();
 				                                                    	var contrato = Ext.getCmp(scanning.id+'-cbx-contrato').getValue();
+
 											                            Ext.Ajax.request({
 											                                url:scanning.url+'set_scanner_file_one_to_one/',
 											                                params:{
@@ -1335,7 +1362,8 @@
 														                    	con:contrato,
 														                    	path:destino,
 														                    	vp_estado:'A',
-											                                    vp_recordsToSend:recordsToSend
+											                                    vp_recordsToSend:recordsToSend,
+											                                    vp_lote_nombre:scanning.lote_nombre
 											                                },
 											                                timeout: 300000,
 											                                success: function(response, options){
@@ -1844,7 +1872,8 @@
 				scanning.getLoader(true);
 				Ext.getCmp(scanning.id + '-grid-paginas-tmp').getStore().removeAll();
 				var destino=Ext.getCmp(scanning.id+'-txt-origen').getValue();
-				var cliente=Ext.getCmp(scanning.id+'-cbx-cliente').getValue();
+				var cliente=0;
+				//Ext.getCmp(scanning.id+'-cbx-cliente').getValue();
 				Ext.getCmp(scanning.id + '-grid-paginas-tmp').getStore().load(
 	                {params: {path:destino,cli:cliente},
 	                callback:function(){
@@ -2154,24 +2183,7 @@
 		        /*var panel = Ext.getCmp(gestor_errores.id+'-panel_img');
 		        panel.removeAll();        
 		        panel.doLayout();*/
-		    },   
-		    upload:function($p){
-			        Ext.msg('hola');
-			        $fileName = $_FILES['filedata']['name']; 
-			        $tmpName = $_FILES['filedata']['tmp_name']; 
-			        $fileSize = $_FILES['filedata']['size']; 
-			        $fileType = $_FILES['filedata']['type']; 
-			        $fp = fopen($tmpName, 'r'); 
-			        $content = fread($fp, filesize($tmpName)); 
-			        $content = addslashes($content); 
-			        fclose($fp); 
-			        if(!get_magic_quotes_gpc()){ 
-			            $fileName = addslashes($fileName); 
-			        } 
-			       /* $query = "INSERT INTO yourdatabasetable (`name`, `size`, `type`, `file`) VALUES ('".$fileName."','".$fileSize."', '".$fileType."', '".$content."')"; 
-			        mysql_query($query);*/ 
-
-    		}		
+		    }
 
 
 
