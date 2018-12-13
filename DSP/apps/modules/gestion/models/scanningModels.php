@@ -56,7 +56,7 @@ class scanningModels extends Adodb {
         parent::SetParameterSP(utf8_decode($p['vp_img']), 'varchar');
         parent::SetParameterSP(utf8_decode($p['vp_imgorigen']), 'varchar');
         parent::SetParameterSP($p['vp_lado'], 'varchar');
-        parent::SetParameterSP($p['vp_estado'], 'varchar');
+        parent::SetParameterSP($p['vp_estado'], 'varchar');        
         parent::SetParameterSP($p['vp_w'], 'int');
         parent::SetParameterSP($p['vp_h'], 'int');
         parent::SetParameterSP(USR_ID, 'int');

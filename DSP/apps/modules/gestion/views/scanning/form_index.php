@@ -613,7 +613,7 @@
 							                                
 							                            },
 														beforeselect:function(obj, record, index, eOpts ){
-															scanning.lote_nombre=records.get('lote_nombre');
+															scanning.lote_nombre=record.get('lote_nombre');
 															scanning.shi_codigo=record.get('shi_codigo');
 															scanning.id_det=record.get('id_det');
 															scanning.id_lote=record.get('id_lote');
@@ -1200,6 +1200,7 @@
 									                            },
 									                            click: function(obj, e){
 									                            	//scanning.work=!scanning.work;
+									                            	
 									                            	scanning.getScanning();
 									                            }
 									                        }
@@ -1292,7 +1293,7 @@
 									                                    width: 280
 									                                },
 									                                {
-									                                    text: 'DLT',
+									                                    text: 'dlt',
 									                                    dataIndex: 'estado',
 									                                    //loocked : true,
 									                                    width: 40,
@@ -1349,7 +1350,7 @@
 
 				                                                    	Ext.getCmp(scanning.id+'-form').el.mask('Registrando Páginas…', 'x-mask-loading'); 
 				                                                    	var destino=Ext.getCmp(scanning.id+'-txt-origen').getValue();
-				                                                    	var contrato = Ext.getCmp(scanning.id+'-cbx-contrato').getValue();
+				                                                    	var contrato = Ext.getCmp(scanning.id+'-cbx-contrato').getRawValue();
 
 											                            Ext.Ajax.request({
 											                                url:scanning.url+'set_scanner_file_one_to_one/',
@@ -1872,10 +1873,11 @@
 				scanning.getLoader(true);
 				Ext.getCmp(scanning.id + '-grid-paginas-tmp').getStore().removeAll();
 				var destino=Ext.getCmp(scanning.id+'-txt-origen').getValue();
+				var contrato = Ext.getCmp(scanning.id+'-cbx-contrato').getRawValue();				
 				var cliente=0;
 				//Ext.getCmp(scanning.id+'-cbx-cliente').getValue();
 				Ext.getCmp(scanning.id + '-grid-paginas-tmp').getStore().load(
-	                {params: {path:destino,cli:cliente},
+	                {params: {con:contrato,path:destino,cli:cliente},
 	                callback:function(){
 	                	//Ext.getCmp(scanning.id+'-form').el.unmask();
 	                	scanning.getLoader(false);
@@ -1895,6 +1897,7 @@
 					return false;
 				}
 				var destino=Ext.getCmp(scanning.id+'-txt-origen').getValue();
+				var contrato = Ext.getCmp(scanning.id+'-cbx-contrato').getRawValue();
 				console.log(scanning.shi_codigo+'-'+scanning.id_det+'-'+scanning.id_lote);
 
 				global.Msg({
@@ -1914,6 +1917,7 @@
 			                    	vp_id_det:scanning.id_det,
 			                    	vp_id_lote:scanning.id_lote,
 			                    	path:destino,
+			                    	con:contrato,
 			                    	vp_estado:'A'
 			                    },
 			                    timeout: 300000,

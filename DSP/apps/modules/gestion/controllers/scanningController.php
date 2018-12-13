@@ -404,17 +404,17 @@ class scanningController extends AppController {
     public function set_scanner_file_one_to_one($p){
         $records = json_decode(stripslashes($p['vp_recordsToSend'])); //parse the string to PHP objects
         if(isset($records)){
-            if (!file_exists(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'])) {
-                mkdir(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'], 0777, true);
+            if (!file_exists(PATH.'public_html/scanning/'.$p['con'].$p['vp_lote_nombre'].'/'.$file)) {
+                mkdir(PATH.'public_html/scanning/'.$p['con'].$p['vp_lote_nombre'].'/'.$file, 0777, true);
             }
             foreach($records as $record){
                 $file=$record->file;
                 if (file_exists(PATH.'public_html/contenedor/'.USR_ID.'/'.$file)){
                     $path_parts = pathinfo(PATH.'public_html/contenedor/'.USR_ID.'/'.$file);
                     $ext=$path_parts['extension'];
-                    $p['vp_img']='-page.'.$ext;
+                    $p['vp_img']=$p['vp_lote_nombre'].$file;
                     $p['vp_imgorigen']=$file;
-                    $p['vp_path']='/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'].'/';
+                    $p['vp_path']='/scanning/'.$p['con'].$p['vp_lote_nombre'].'/';
                     list($width, $height) = getimagesize(PATH.'public_html/contenedor/'.USR_ID.'/'.$file);
                     $p['vp_w']=$width;
                     $p['vp_h']=$height;
@@ -424,9 +424,9 @@ class scanningController extends AppController {
                     $data = array('success' => true,'error' => $rs['status'],'msn' => utf8_encode(trim($rs['response'])));
 
                     if($rs['status']=='OK'){
-                        rename(PATH.'public_html/contenedor/'.USR_ID.'/'.$file, PATH.'public_html'.$p['vp_path'].$rs['id_pag'].$p['vp_img']);
+                        rename(PATH.'public_html/contenedor/'.USR_ID.'/'.$file, PATH.'public_html'.$p['vp_path'].$file);
                         try{
-                            rename(PATH.'public_html/tumblr/'.$file, PATH.'public_html/tumblr/'.$rs['id_pag'].$p['vp_img']);
+                            rename(PATH.'public_html/tumblr/'.$file, PATH.'public_html/tumblr/'.$p['vp_lote_nombre'].$file);
                         } catch (Exception $e) {
                             //echo 'Caught exception: ',  $e->getMessage(), "\n";
                         }
@@ -447,8 +447,8 @@ class scanningController extends AppController {
         try {
             if (is_dir(PATH.'public_html/contenedor/'.USR_ID.'/')){
                   if ($dh = opendir(PATH.'public_html/contenedor/'.USR_ID.'/')){
-                    if (!file_exists(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'])) {
-                        mkdir(PATH.'public_html/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'], 0777, true);
+                    if (!file_exists(PATH.'public_html/scanning/'.$p['con'].$p['vp_lote_nombre'].'/'.$file)) {
+                        mkdir(PATH.'public_html/scanning/'.$p['con'].$p['vp_lote_nombre'].'/'.$file, 0777, true);
                     }
                     while (false !== ($file = readdir($dh))) {
                         //echo $file.'xx';
@@ -462,7 +462,7 @@ class scanningController extends AppController {
                                         $ext=$path_parts['extension'];
                                         $p['vp_img']='-page.'.$ext;
                                         $p['vp_imgorigen']=$file;
-                                        $p['vp_path']='/scanning/'.$p['vp_shi_codigo'].'/'.$p['con'].'/'.$p['vp_id_lote'].'/';
+                                        $p['vp_path']='/scanning/'.$p['con'].$p['vp_lote_nombre'].'/';
                                         $p['vp_lado']='A';
                                         list($width, $height) = getimagesize(PATH.'public_html/contenedor/'.USR_ID.'/'.$file);
                                         $p['vp_w']=$width;
@@ -473,12 +473,12 @@ class scanningController extends AppController {
 
                                         if($rs['status']=='OK'){
                                             try{
-                                                rename(PATH.'public_html/contenedor/'.USR_ID.'/'.$file, PATH.'public_html'.$p['vp_path'].$rs['id_pag'].$p['vp_img']);
+                                                rename(PATH.'public_html/contenedor/'.USR_ID.'/'.$file, PATH.'public_html'.$p['vp_path'].$file);
                                             } catch (Exception $e) {
                                                 //echo 'Caught exception: ',  $e->getMessage(), "\n";
                                             }
                                             try{
-                                                rename(PATH.'public_html/tumblr/'.$file, PATH.'public_html/tumblr/'.$rs['id_pag'].$p['vp_img']);
+                                                rename(PATH.'public_html/tumblr/'.$file, PATH.'public_html/tumblr/'.$p['vp_lote_nombre'].$file);
                                             } catch (Exception $e) {
                                                 //echo 'Caught exception: ',  $e->getMessage(), "\n";
                                             }
