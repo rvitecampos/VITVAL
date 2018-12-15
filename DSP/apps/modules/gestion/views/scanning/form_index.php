@@ -1906,6 +1906,7 @@
                     buttons: 3,
                     fn: function(btn){
                     	if (btn == 'yes'){
+                    		//
                     		Ext.getCmp(scanning.id+'-form').el.mask('Registrando Páginas…', 'x-mask-loading'); 
 							scanning.getLoader(true);
 							Ext.Ajax.request({
@@ -1918,6 +1919,7 @@
 			                    	vp_id_lote:scanning.id_lote,
 			                    	path:destino,
 			                    	con:contrato,
+			                    	vp_lote_nombre:scanning.lote_nombre,
 			                    	vp_estado:'A'
 			                    },
 			                    timeout: 300000,

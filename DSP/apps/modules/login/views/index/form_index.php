@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>DSP</title>
+    <title>VITVAL</title>
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="/css/login_bootstrap.css">
@@ -12,8 +12,10 @@
     <div class="contenedor_login">
         <div class="contenedor_login_in">
             <header>
-                <div class="logo"></div>
-                <div class="welcome">Bienvenido</div>
+                <!--<div class="logo"></div>-->
+                <p>
+                </p>
+                <div class="welcome">Bienvenido a VITVALSYSTEM</div>
             </header>
             <section>
                 <span class="ingrese">Ingrese sus datos de acceso:</span>
@@ -36,7 +38,7 @@
             </section>
             <footer>
                 <p>
-                    <span>Copyright&copy; DSP Perú</span>
+                    <span>Copyright&copy; TayelSystem Perú</span>
                     <span>Todos los derechos reservados</span>
                 </p>
             </footer>
