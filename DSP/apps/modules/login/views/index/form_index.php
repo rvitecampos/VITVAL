@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>VITVAL</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+    <!--<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">-->
     <link rel="stylesheet" type="text/css" href="/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="/css/login_bootstrap.css">
 </head>
@@ -13,12 +13,14 @@
         <div class="contenedor_login_in">
             <header>
                 <!--<div class="logo"></div>-->
-                <p>
+                <p>   
+                <br/>             
+                <div class="welcome">Bienvenido a VITVAL</div>
                 </p>
-                <div class="welcome">Bienvenido a VITVALSYSTEM</div>
             </header>
             <section>
                 <span class="ingrese">Ingrese sus datos de acceso:</span>
+
                 <form action="/login/index/valida" id="formulario_login" name="formulario_login" method="POST" accept-charset="utf-8">
                 <p>
                     <span class="label">Usuario:</span>
@@ -28,9 +30,9 @@
                     <span class="label">Contraseña:</span>
                     <input type="password" class="input" placeholder="Ingrese contraseña" autocomplete="off" name="password" required>
                 </p>
-                <p class="centrar">
+                <!--<p class="centrar">
                     <a href="/login/index/cambiar_password/" class="cambiar_password">Cambiar contraseña</a>
-                </p>
+                </p>-->
                 <p>
                     <button type="submit" class="button">Ingresar</button>
                 </p>
@@ -38,7 +40,7 @@
             </section>
             <footer>
                 <p>
-                    <span>Copyright&copy; TayelSystem Perú</span>
+                    <span>Copyright&copy; TYBVQ</span>
                     <span>Todos los derechos reservados</span>
                 </p>
             </footer>

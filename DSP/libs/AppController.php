@@ -65,8 +65,8 @@ class AppController extends \Geekode\Geekode{
         $html.= '<table bgcolor="#D9D9D9" cellpadding="0" cellspacing="0" width="100%">';
             $html.= '<tr>';
 
-                $html.= '<td><img src="http://www.urbano.com.pe/images/front/logo_urbano.png" style=""/></td>';
-                $html.= '<td style="padding-top: 20px; padding-left: 5px;" align="left"><img src="http://www.urbano.com.pe/images/front/flag-pe.png" style=""/></td>';
+               /* $html.= '<td><img src="http://www.urbano.com.pe/images/front/logo_urbano.png" style=""/></td>';
+                $html.= '<td style="padding-top: 20px; padding-left: 5px;" align="left"><img src="http://www.urbano.com.pe/images/front/flag-pe.png" style=""/></td>';*/
                 $html.= '<td width="100%">&nbsp;</td>';
             $html.= '</tr>';
             $html.= '<tr>';
@@ -101,7 +101,7 @@ class AppController extends \Geekode\Geekode{
 
                                 $html.= '<p>Cordialmente,</p>';
                                 $html.= '<p style="color:gray;">--</p>';
-                                $html.= '<p style="color:gray;">Urbano Per&uacute; S.A.</p>';
+                                $html.= '<p style="color:gray;">VITVAL</p>';
                             $html.= '</td>';
                         $html.= '</tr>';
                     $html.= '</table>';
@@ -110,7 +110,7 @@ class AppController extends \Geekode\Geekode{
             $html.= '<tr bgcolor="#333333">';
                 $html.= '<td align="center" style="color: white; font-family: sans-serif; font-size: 10px;" colspan="3">';
                     $html.= '<p>';
-                        $html.= '<span style="display: block;">Copyright&copy; Urbano Per&uacute;</span>';
+                        $html.= '<span style="display: block;">Copyright&copy;TYBVQ;</span>';
                         $html.= '<span style="display: block;">Todos los derechos reservados</span>';
                     $html.= '</p>';
                 $html.= '</td>';

@@ -556,7 +556,7 @@
 			                                            id_menu: user.id_menu,
 			                                            icons:[
 			                                                {id_serv: 10, img: 'edit.png', qtip: 'Editar.', js: "user.getEdit("+rowIndex+")"},
-			                                                {id_serv: 10, img: 'reprogramadas.png', qtip: 'Editar.', js: "user.getPermisoMenu("+rowIndex+")"}
+			                                                //{id_serv: 10, img: 'reprogramadas.png', qtip: 'Editar.', js: "user.getPermisoMenu("+rowIndex+")"}
 
 			                                            ]
 			                                        });

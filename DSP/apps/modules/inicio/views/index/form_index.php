@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>.: VITVAL :.</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+    <!--<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">-->
     <link rel="stylesheet" type="text/css" href="/css/inicio_bootstrap.css">
     <link rel="stylesheet" href="/js/iviewer/jquery.iviewer.css" />
     <link rel="stylesheet" href="/js/cropperjs/cropper.css">
@@ -76,7 +76,7 @@
             goHomeText.style.color = 'white';
             goHomeText.style.paddingLeft = '4px';
             goHomeText.style.paddingRight = '4px';
-            goHomeText.innerHTML = '<b>Urbano Express Perú</b>';
+            goHomeText.innerHTML = '<b>VITVAL</b>';
             goHomeUI.appendChild(goHomeText);
 
             google.maps.event.addDomListener(goHomeUI, 'click', function() {
@@ -168,7 +168,7 @@
                     '<div class="sello_izq"></div>' +
                     '<div class="creditos">' +
                         '<p>' +
-                            '<span>Copyright&copy; Urbano Perú</span>' +
+                            '<span>Copyright&copy; VITVAL</span>' +
                             '<span>Todos los derechos reservados</span>' +
                         '</p>' +
                     '</div>' +
